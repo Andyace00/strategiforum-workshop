@@ -1212,13 +1212,227 @@ html, body {
 @media print {
   .facnotes, .nav-info, .ws-status, .nav-progress { display: none !important; }
 }
+
+/* ================ MANUAL FALLBACK ================ */
+.manual-mode-banner {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--gold);
+  color: var(--bg-primary);
+  padding: 8px 16px;
+  font-size: 11px;
+  text-align: center;
+  z-index: 9998;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: "Public Sans", sans-serif;
+}
+body.manual-mode .manual-mode-banner { display: block; }
+body.manual-mode .deck { padding-top: 30px; }
+
+.manual-fab {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: var(--gold);
+  color: var(--bg-primary);
+  border: none;
+  padding: 14px 22px;
+  border-radius: var(--r-md);
+  font-family: "Public Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  z-index: 55;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(229, 188, 92, 0.3);
+}
+body.manual-mode .manual-fab { display: inline-block; }
+.manual-fab:hover { background: #F4CB6C; transform: translateY(-2px); }
+.manual-fab:disabled { background: var(--border); color: var(--text-faint); cursor: not-allowed; }
+
+.manual-export {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 230px;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  font-family: "Public Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  z-index: 55;
+}
+body.manual-mode .manual-export { display: inline-block; }
+
+/* Manual modal */
+.m-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 15, 30, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 32px;
+}
+.m-modal {
+  background: var(--bg-primary);
+  border: 1px solid var(--gold);
+  border-radius: var(--r-lg);
+  max-width: 580px;
+  width: 100%;
+  padding: 30px 34px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  font-family: "Public Sans", sans-serif;
+}
+.m-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.m-modal-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  font-weight: 800;
+}
+.m-modal-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  font-family: inherit;
+}
+.m-modal-close:hover { border-color: var(--gold); color: var(--gold); }
+.m-modal h3 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.m-modal-q {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+.m-input, .m-modal textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0, 15, 30, 0.5);
+  border: 1px solid var(--border);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  border-radius: var(--r-sm);
+  margin-bottom: 12px;
+  resize: vertical;
+}
+.m-input:focus, .m-modal textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.m-rating-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.m-rb {
+  padding: 16px 0;
+  background: rgba(0, 48, 87, 0.55);
+  border: 2px solid var(--border);
+  color: #fff;
+  border-radius: var(--r-sm);
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.m-rb.selected {
+  background: var(--gold);
+  color: var(--bg-primary);
+  border-color: var(--gold);
+}
+.m-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.m-submit:hover { background: #F4CB6C; }
+.m-hint {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* Manual items merkes med gul border + "M" tag */
+.innspill.manual {
+  border-left-color: var(--gold) !important;
+  position: relative;
+}
+.innspill.manual::after {
+  content: "M";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 9px;
+  background: var(--gold);
+  color: var(--bg-primary);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.cat-col .item.manual {
+  border-left-color: var(--gold) !important;
+}
+/* ================ END MANUAL ================ */
+
 </style>
 </head>
 <body>
 
+<div class="manual-mode-banner">MANUELL FALLBACK · WS kan være nede · trykk + for å legge inn bordsvar · Ctrl+E for eksport</div>
+
+<button class="manual-fab" id="manualFab" onclick="openManualModal()">+ Legg til bordsvar</button>
+<button class="manual-export" onclick="exportManualData()">Eksport JSON</button>
+
 <div class="nav-progress" id="progressBar" style="width: 0%"></div>
 <div class="ws-status" id="wsStatus"><span class="dot"></span><span id="wsLabel">Offline</span></div>
-<div class="nav-info">← → for å navigere · F for fasilitatornoter</div>
+<div class="nav-info">← → navigasjon · F fasilitatornoter · M manuell fallback · Ctrl+E eksport</div>
 
 <div class="deck" id="deck">
 
@@ -1704,6 +1918,17 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'f' || e.key === 'F') {
     document.querySelectorAll('.facnotes').forEach(f => f.classList.toggle('visible'));
   }
+  else if ((e.key === 'm' || e.key === 'M') && !e.ctrlKey) {
+    e.preventDefault();
+    toggleManualMode();
+  }
+  else if (e.key === 'e' && e.ctrlKey) {
+    e.preventDefault();
+    exportManualData();
+  }
+  else if (e.key === 'Escape') {
+    closeManualModal();
+  }
 });
 
 // Touch/swipe
@@ -1727,6 +1952,188 @@ function lukkPopup(e) {
 function lukkAllePopups() {
   document.querySelectorAll('.popup-backdrop').forEach(p => p.classList.remove('open'));
 }
+
+
+/* ==================== MANUAL FALLBACK ==================== */
+const MANUAL_KEY = 'strategiforum_manual_v3';
+let manualMode = false;
+let mSelectedRating = null;
+
+function loadManualState() {
+  try { return JSON.parse(localStorage.getItem(MANUAL_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveManualState(m) {
+  try { localStorage.setItem(MANUAL_KEY, JSON.stringify(m)); } catch {}
+}
+function clearManualState() {
+  localStorage.removeItem(MANUAL_KEY);
+  renderAll();
+}
+
+function toggleManualMode() {
+  manualMode = !manualMode;
+  document.body.classList.toggle('manual-mode', manualMode);
+  updateManualFabState();
+  renderAll();
+}
+
+function updateManualFabState() {
+  const fab = document.getElementById('manualFab');
+  if (!fab) return;
+  const activeSlide = slides[current];
+  const roundId = activeSlide?.getAttribute('data-live-round');
+  if (roundId) {
+    fab.disabled = false;
+    fab.textContent = '+ Legg til bordsvar (' + roundId.replace(/_.*/, '') + ')';
+  } else {
+    fab.disabled = true;
+    fab.textContent = '+ Ingen runde på denne sliden';
+  }
+}
+
+function mergedRound(roundId) {
+  const ws = workshopState?.rounds?.[roundId] || {};
+  const manual = loadManualState()[roundId] || {};
+  const wsItems = (ws.items || []).map(it => ({ ...it, manual: false }));
+  const manualItems = (manual.items || []).map(it => ({ ...it, manual: true }));
+  const wsRatings = (ws.ratings || []).map(r => ({ ...r, manual: false }));
+  const manualRatings = (manual.ratings || []).map(r => ({ ...r, manual: true }));
+  return {
+    ...ws,
+    items: [...wsItems, ...manualItems],
+    ratings: [...wsRatings, ...manualRatings],
+  };
+}
+
+function openManualModal() {
+  const activeSlide = slides[current];
+  const roundId = activeSlide?.getAttribute('data-live-round');
+  if (!roundId) { alert('Denne sliden har ingen aktiv runde.'); return; }
+  const round = workshopState?.rounds?.[roundId];
+  if (!round) { alert('Ukjent runde: ' + roundId); return; }
+  showManualModal(roundId, round.type, round);
+}
+
+function showManualModal(roundId, type, round) {
+  mSelectedRating = null;
+  const cats = round.categories || [];
+  const bordOptions = Array.from({length: 10}, (_, i) => `Bord ${i+1}`);
+
+  let formHtml = '';
+  if (type === 'freetext') {
+    formHtml = '<textarea id="m-value" placeholder="Svar fra bordet (1-3 setninger)" rows="4"></textarea>';
+  } else if (type === 'rating') {
+    formHtml =
+      '<div class="m-rating-grid">' +
+      [1,2,3,4,5].map(v => `<button type="button" class="m-rb" onclick="mSelectRating(${v})">${v}</button>`).join('') +
+      '</div>' +
+      '<textarea id="m-comment" placeholder="Kommentar (valgfritt — betingelser, begrunnelse)" rows="2"></textarea>';
+  } else if (type === 'categorized') {
+    formHtml =
+      '<select id="m-cat" class="m-input"><option value="">Velg kategori…</option>' +
+      cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('') +
+      '</select>' +
+      '<textarea id="m-value" placeholder="Innspill fra bordet" rows="3"></textarea>';
+  }
+
+  const wsStatus = (ws && ws.readyState === WebSocket.OPEN) ? 'WS tilkoblet · prøver å sende' : 'WS frakoblet · kun lokal lagring';
+
+  const html =
+    '<div class="m-modal-backdrop" onclick="if(event.target===this) closeManualModal()">' +
+      '<div class="m-modal">' +
+        '<div class="m-modal-head">' +
+          `<div class="m-modal-tag">Manuell fallback · ${escapeHtml(roundId)}</div>` +
+          '<button class="m-modal-close" onclick="closeManualModal()">×</button>' +
+        '</div>' +
+        `<h3>${escapeHtml(round.title)}</h3>` +
+        `<p class="m-modal-q">${escapeHtml(round.question)}</p>` +
+        '<select id="m-bord" class="m-input">' +
+        bordOptions.map(b => `<option value="${b}">${b}</option>`).join('') +
+        '</select>' +
+        formHtml +
+        `<button class="m-submit" onclick="submitManual('${roundId}', '${type}')">Legg til</button>` +
+        `<div class="m-hint">${wsStatus}</div>` +
+      '</div>' +
+    '</div>';
+
+  const wrap = document.createElement('div');
+  wrap.id = 'manual-modal-wrap';
+  wrap.innerHTML = html;
+  document.body.appendChild(wrap);
+  setTimeout(() => {
+    const first = wrap.querySelector('textarea, select');
+    if (first && first.tagName === 'TEXTAREA') first.focus();
+  }, 50);
+}
+
+function mSelectRating(v) {
+  mSelectedRating = v;
+  document.querySelectorAll('.m-rb').forEach((b, i) => b.classList.toggle('selected', i+1 === v));
+}
+
+function closeManualModal() {
+  document.getElementById('manual-modal-wrap')?.remove();
+  mSelectedRating = null;
+}
+
+function submitManual(roundId, type) {
+  const bord = document.getElementById('m-bord').value;
+  const userId = 'manual_' + bord.replace(/\s+/g, '_').toLowerCase();
+  const nowIso = new Date().toISOString();
+  const manual = loadManualState();
+  manual[roundId] = manual[roundId] || { items: [], ratings: [] };
+
+  let wsPayload = null;
+
+  if (type === 'freetext') {
+    const value = document.getElementById('m-value').value.trim();
+    if (!value) { alert('Skriv noe først'); return; }
+    manual[roundId].items = (manual[roundId].items || []).filter(it => it.user_id !== userId);
+    manual[roundId].items.push({ user_id: userId, value, ts: nowIso });
+    wsPayload = { type: 'submit_freetext', round_id: roundId, user_id: userId, user_name: bord, value };
+  } else if (type === 'rating') {
+    if (!mSelectedRating) { alert('Velg 1-5'); return; }
+    const comment = document.getElementById('m-comment').value.trim();
+    manual[roundId].ratings = (manual[roundId].ratings || []).filter(r => r.user_id !== userId);
+    manual[roundId].ratings.push({ user_id: userId, value: mSelectedRating, comment, ts: nowIso });
+    wsPayload = { type: 'submit_rating', round_id: roundId, user_id: userId, user_name: bord, value: mSelectedRating, comment };
+  } else if (type === 'categorized') {
+    const cat = document.getElementById('m-cat').value;
+    const value = document.getElementById('m-value').value.trim();
+    if (!cat) { alert('Velg kategori'); return; }
+    if (!value) { alert('Skriv innspill'); return; }
+    manual[roundId].items = manual[roundId].items || [];
+    manual[roundId].items.push({ user_id: userId, value, category: cat, ts: nowIso });
+    wsPayload = { type: 'submit_categorized', round_id: roundId, user_id: userId, user_name: bord, value, category: cat };
+  }
+
+  saveManualState(manual);
+
+  // Best effort WS send
+  if (wsPayload && ws && ws.readyState === WebSocket.OPEN) {
+    try { ws.send(JSON.stringify(wsPayload)); } catch (e) { console.warn('WS send feilet:', e); }
+  }
+
+  closeManualModal();
+  renderAll();
+}
+
+function exportManualData() {
+  const data = {
+    exported: new Date().toISOString(),
+    manual: loadManualState(),
+    ws_state: workshopState,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'strategiforum_backup_' + new Date().toISOString().replace(/[:.]/g, '-') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+/* ==================== END MANUAL ==================== */
 
 /* ---------- WORKSHOP STATE ---------- */
 let workshopState = null;
@@ -1769,13 +2176,15 @@ function renderAll() {
   if (!workshopState) return;
   const rounds = workshopState.rounds || {};
 
-  renderFreetext('r1_bilde2035', rounds.r1_bilde2035);
-  renderFreetext('r2_prinsipper', rounds.r2_prinsipper);
-  renderCategorized('r3_hovedadresser', rounds.r3_hovedadresser, ['Ski', 'Kolbotn', 'Langhus']);
-  renderRating('r4', rounds.r4_langhus);
-  renderCategorized('r5_satellitter', rounds.r5_satellitter, ['Kan flyttes', 'Må vurderes', 'Urørlig']);
-  renderFreetext('r6_dilemma', rounds.r6_dilemma);
-  renderRating('r7', rounds.r7_konsensus);
+  // Bruk mergedRound for live+manual merge
+  renderFreetext('r1_bilde2035', mergedRound('r1_bilde2035'));
+  renderFreetext('r2_prinsipper', mergedRound('r2_prinsipper'));
+  renderCategorized('r3_hovedadresser', mergedRound('r3_hovedadresser'), ['Ski', 'Kolbotn', 'Langhus']);
+  renderRating('r4', mergedRound('r4_langhus'));
+  renderCategorized('r5_satellitter', mergedRound('r5_satellitter'), ['Kan flyttes', 'Må vurderes', 'Urørlig']);
+  renderFreetext('r6_dilemma', mergedRound('r6_dilemma'));
+  renderRating('r7', mergedRound('r7_konsensus'));
+  updateManualFabState();
 
   // AI-state rehydration
   if (rounds.r2_prinsipper?.destilled?.length) {
@@ -1801,7 +2210,7 @@ function renderFreetext(id, round) {
     return;
   }
   container.innerHTML = items.map(it => `
-    <div class="innspill">
+    <div class="innspill${it.manual ? ' manual' : ''}">
       ${escapeHtml(it.value)}
       <span class="bord">${escapeHtml(it.user_id || 'Anonym')}</span>
     </div>
@@ -1821,7 +2230,7 @@ function renderCategorized(roundId, round, categories) {
       container.innerHTML = '<div style="color: var(--text-faint); font-style: italic; font-size: 11px; padding: 8px;">Tom</div>';
       return;
     }
-    container.innerHTML = inCat.map(it => `<div class="item">${escapeHtml(it.value)}</div>`).join('');
+    container.innerHTML = inCat.map(it => `<div class="item${it.manual ? ' manual' : ''}">${escapeHtml(it.value)}</div>`).join('');
   });
 }
 
