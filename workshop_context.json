@@ -1,0 +1,119 @@
+{
+  "domene": {
+    "navn": "Møteplasser i Nordre Follo",
+    "kilde": "Strategiforum 30. april 2026 — direktører og kommunalsjefer i Nordre Follo kommune",
+    "definisjon": "Fremtidens møteplasser i Nordre Follo — hvilke steder kommunen skal holde fysisk aktivitet, kultur, læring og fellesskap i 2035. Fire tjenester driver i dag hver sine hus: bibliotek, seniorsentre, kulturskolen og ung fritid. Målet er å samle aktiviteten på få, sterke hovedadresser og frigjøre areal der det ligger tynt.",
+    "narrativ": "Vi har ikke for lite areal. Vi har for tynt liv — og for tynt liv koster oss penger vi trenger til noe annet. Rekkefølgen: velg hva møteplassene skal være → vurder hvor → se hva vi kan gi slipp på.",
+    "ambisjon": "Redusere samlet areal, kutte driftskostnader, og samtidig øke aktivitetsnivå og sambruk på de utvalgte hovedadressene. Samlokalisering følger som konsekvens av valgene forumet gjør."
+  },
+
+  "evidens": {
+    "areal_leid_kvm": 3250,
+    "areal_eid_kvm": 5062,
+    "areal_k26_kvm": 170,
+    "areal_samlet_kvm": 8312,
+    "innbyggere": 65300,
+    "kvm_per_100_innb": 12.6,
+    "antall_lokasjoner": 20,
+    "tjenester_i_scope": ["Bibliotek", "Seniorsentre", "Kulturskole"],
+    "tjenester_ikke_i_scope": ["Ung fritid — forvaltes separat og er utelatt fra denne workshopen"],
+    "kilde": "Visio-filen 'Prosesser areal - avhengigheter.vsdx' + Eiendom + K26-skisser. Tallene er anslag som kvalitetssikres før arbeidsgruppens leveranse 30. mai 2026."
+  },
+
+  "helse_og_mestring_forebygging": {
+    "kjernefunn": "Rapporter fra Helse og mestring viser at behovet for sykehjemsplasser kan utsettes dersom kommunen legger til rette for godt tilbud på seniorsentre og dagsentre.",
+    "skille": "Det bør være et tydelig skille mellom vedtaksbaserte dagsenter-plasser (lovpålagt, tildelt) og åpent forebyggende senior-tilbud (ikke-lovpålagt, lett tilgjengelig).",
+    "hva_seniorsentre_tilbyr": "Møteplass og trening for eldre som ikke kommer seg på treningsstudio eller har behov for annen tilrettelegging. Forebyggende perspektiv.",
+    "konsekvens_for_narrativ": "Senior-møteplasser er ikke kostnad. De er investering i forebygging. Dette er et av de sterkeste argumentene FOR sambruk, ikke mot."
+  },
+
+  "benchmarking": [
+    {
+      "sted": "Lillestrøm (2022)",
+      "navn": "Lillestrøm bibliotek",
+      "beskrivelse": "3 000 kvm på 3 etasjer, samlokalisert med kulturskolen, rett ved togstasjonen. Over 300 000 besøkende per år.",
+      "kilde": "Lillestrømbibliotekene"
+    },
+    {
+      "sted": "Asker",
+      "navn": "Asker kulturhus",
+      "beskrivelse": "Bibliotek, kultursenter og seniorfunksjoner under samme tak, dør-i-dør med kjøpesenteret Trekanten. Kulturhjørnet som seniorrettet møteplass 11-14 hverdager.",
+      "kilde": "Asker kommune + Citycon"
+    },
+    {
+      "sted": "KS 2022",
+      "navn": "Veileder for sirkulærøkonomi",
+      "beskrivelse": "KS-veileder utarbeidet av Deloitte i 2022. Peker eksplisitt på sambruk og flerbruk som sentral strategi for arealeffektivisering i kommunesektoren.",
+      "kilde": "ks.no/veileder-for-sirkular-okonomi"
+    }
+  ],
+
+  "gitt_ikke_til_diskusjon": {
+    "hovedadresser": [
+      "Ski bibliotek er hovedadresse, uansett kontraktsituasjon",
+      "Kolben (Kolbotn) er hovedadresse"
+    ],
+    "prinsipper": [
+      "Lovpålagte tjenester (bibliotek, kulturskole) er grunnsteiner — sambruk, ikke avvikling",
+      "Senior-møteplasser er forebygging, ikke kostnad — Helse og mestring-rapporter om utsettelse av sykehjemsbehov",
+      "Samlokaliserings-arbeidet gjenstartes som konsekvens av retningen forumet lander",
+      "Virksomhetsledere involveres som partnere i arbeidsgruppens leveranse — krav, ikke anbefaling",
+      "Ung fritid (fritidssentre og ungdomskafeer) forvaltes separat og er ikke med i denne workshopen"
+    ],
+    "leveranse": "Arbeidsgruppens leveranse til styringsgruppen: senest 30. mai 2026",
+    "kommunedirektor": "Øyvind — eier prosessen i rommet, 5 inngrep underveis"
+  },
+
+  "kontekst_nordre_follo": {
+    "tjenester_i_scope": [
+      "Bibliotek (lovpålagt — bibliotekloven): Ski bibliotek, Kolben bibliotek",
+      "Seniorsentre (forebyggende, ikke-lovpålagt): Kolben senior, Toppenhaug, Svingen",
+      "Kulturskole (lovpålagt — opplæringsloven): Kolben kultur, Kontra (til 2031), Idrettsveien 14 (dans), skoler (SFO)",
+      "K26 — liten egen bygning (kafé, kjøkken, utstilling, ca. 170 kvm)"
+    ],
+    "ankere_spesialrom": [
+      "Flygel og slagverk — kulturskole (Kolben, Kontra)",
+      "Lydisolert studio — kulturskole",
+      "Visuell kunst og animasjon — kulturskole",
+      "Dansesal 850 kvm — Idrettsveien 14"
+    ],
+    "kjente_dilemmaer": [
+      "Langhus som tredje hovedadresse — betingelser og arealtilgang",
+      "Kontra kulturskoles leiekontrakt utløper 2031 — kulturskolens ankere må finne nytt hjem",
+      "Skillet mellom vedtaksbaserte dagsenter-plasser og åpent forebyggende senior-tilbud må synliggjøres"
+    ],
+    "fellesnevnere_overlapp": [
+      "Språkkafé i bibliotek og språkopplæring på seniorsenter = samme aktivitet i to hus",
+      "Kurs og foredrag finnes både bibliotek og senior",
+      "Kafé, quiz, brettspill mange steder",
+      "Trening (Sterk og stødig, zumba, balanse) på seniorsentre — forebyggende funksjon"
+    ]
+  },
+
+  "prompt_instruksjoner_for_prinsipper": {
+    "rolle": "Du destillerer prinsipper fra et strategiforum for direktører og kommunalsjefer i Nordre Follo. Input er ca. 10 setninger der hver gruppe har svart 'Hva kjennetegner en hovedadresse?'.",
+    "oppgave": "Les alle gruppesvarene og destiller dem til 3-4 korte, skarpe prinsipper. Hvert prinsipp skal være 8-16 ord, lett å gjenta, og bruke deltakernes egne ord der mulig. Bruk normativ form: 'Et sted er en hovedadresse når...', 'En hovedadresse har...'.",
+    "viktige_regler": [
+      "Behold deltakernes ord der det lar seg gjøre",
+      "Ikke legg til prinsipper som ikke er støttet i minst én gruppes svar",
+      "Hvis to gruppers svar sier samme ting — slå sammen, ikke dupliser",
+      "Returner KUN en JSON-array med 3-4 strenger, ingen forklaring, ingen markdown"
+    ]
+  },
+
+  "tone_og_språk": {
+    "skal_være": [
+      "Direkte, varm, ikke konsulent-norsk",
+      "Konkret — snakk om bygg, aktiviteter, mennesker",
+      "Ærlig om at valgene koster noe",
+      "Korrekt norsk bokmål med æøå",
+      "Bruke deltakernes egne ord"
+    ],
+    "skal_unngås": [
+      "Konsulent-norsk som 'synergier', 'verdiskaping', 'co-creation'",
+      "Floskler som 'levende lokalsamfunn' uten innhold",
+      "'Både og'-formuleringer som later som at vi slipper å prioritere",
+      "Å presentere estimater som fakta"
+    ]
+  }
+}

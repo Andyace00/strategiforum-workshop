@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<title>Arealkart Nordre Follo — møteplasser</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0b1425;
+    color: #f0f4fc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 18px 28px 10px;
+    background: linear-gradient(180deg, #111d33 0%, #0b1425 100%);
+    border-bottom: 1px solid #1e2c4a;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #8fa4c4;
+  }
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+    min-height: 0;
+  }
+  #map {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    background: #0e1829;
+  }
+  aside {
+    padding: 18px 24px;
+    background: #111d33;
+    border-left: 1px solid #1e2c4a;
+    overflow-y: auto;
+    font-size: 13px;
+  }
+  aside h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8fa4c4;
+    margin: 14px 0 8px;
+    font-weight: 600;
+  }
+  aside h3:first-child { margin-top: 0; }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .legend-dot.hoved { background: #5a9eff; width: 18px; height: 18px; box-shadow: 0 0 10px rgba(90, 158, 255, 0.6); }
+  .legend-dot.bibliotek { background: #2e7d5a; }
+  .legend-dot.senior { background: #5a7fb5; }
+  .legend-dot.kultur { background: #b5864a; }
+  .legend-dot.ung { background: #a04a6a; }
+
+  .layer-toggle {
+    display: block;
+    padding: 8px 12px;
+    background: #1a2740;
+    border: 1px solid #2a3a5a;
+    color: #bccbe3;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 4px 0;
+    width: 100%;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .layer-toggle:hover { background: #233350; }
+  .layer-toggle.active {
+    background: #3a7bd5;
+    color: #fff;
+    border-color: #3a7bd5;
+  }
+
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(90, 120, 170, 0.15);
+  }
+  .sum-row:last-child { border-bottom: none; }
+  .sum-row .label { color: #8fa4c4; }
+  .sum-row .val { color: #f0f4fc; font-weight: 600; }
+  .sum-row.total .val { color: #5a9eff; font-size: 16px; }
+
+  .note {
+    font-size: 11px;
+    color: #5d708f;
+    font-style: italic;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* Overstyringer for Leaflet i mørk palett */
+  .leaflet-container { background: #0e1829; }
+  .leaflet-tile { filter: brightness(0.7) contrast(1.1) saturate(0.8) hue-rotate(180deg) invert(0.92); }
+  .leaflet-popup-content-wrapper {
+    background: #111d33;
+    color: #f0f4fc;
+    border: 1px solid #2a3a5a;
+    border-radius: 8px;
+  }
+  .leaflet-popup-tip { background: #111d33; }
+  .leaflet-control-attribution {
+    background: rgba(17, 29, 51, 0.85) !important;
+    color: #8fa4c4 !important;
+    font-size: 10px !important;
+  }
+  .leaflet-control-attribution a { color: #5a9eff !important; }
+  .leaflet-control-zoom a {
+    background: #1a2740 !important;
+    color: #f0f4fc !important;
+    border: 1px solid #2a3a5a !important;
+  }
+  .leaflet-control-zoom a:hover { background: #233350 !important; }
+
+  .bygg-popup .navn { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .bygg-popup .info { font-size: 12px; color: #bccbe3; }
+  .bygg-popup .kvm { font-size: 11px; color: #8fa4c4; margin-top: 4px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Møteplasser i Nordre Follo — arealkart</h1>
+    <div class="subtitle">Leaflet + OpenStreetMap · ca. 20 lokasjoner · 3250 kvm leid + 5062 kvm eid (inkl. K26)</div>
+  </header>
+  <div class="main">
+    <div id="map"></div>
+    <aside>
+      <h3>Visning</h3>
+      <button class="layer-toggle active" onclick="setView('alle')">Alle bygg</button>
+      <button class="layer-toggle" onclick="setView('isochron')">15 min rundt hovedadressene</button>
+      <button class="layer-toggle" onclick="setView('etter')">Etter sambruk (satellitter grået)</button>
+
+      <h3>Tegnforklaring</h3>
+      <div class="legend-item"><span class="legend-dot hoved"></span>Hovedadresse</div>
+      <div class="legend-item"><span class="legend-dot senior"></span>Seniorsenter</div>
+      <div class="legend-item"><span class="legend-dot kultur"></span>Kulturskole</div>
+      <p class="note" style="margin-top: 8px;">Ung fritid forvaltes separat og er ikke med i dagens diskusjon.</p>
+
+      <h3>Areal totalt</h3>
+      <div class="sum-row"><span class="label">Leid</span><span class="val">ca. 3250 kvm</span></div>
+      <div class="sum-row"><span class="label">Eid (inkl. K26)</span><span class="val">ca. 5062 kvm</span></div>
+      <div class="sum-row total"><span class="label">Sum</span><span class="val">ca. 8312 kvm</span></div>
+
+      <h3>Innbyggere</h3>
+      <div class="sum-row"><span class="label">Nordre Follo</span><span class="val">65 300</span></div>
+      <div class="sum-row"><span class="label">Kvm per 100 innb.</span><span class="val">~12,6 kvm</span></div>
+
+      <h3>Urørlige bygg</h3>
+      <div style="font-size: 11px; color: #bccbe3; line-height: 1.5;">
+        <strong style="color: #f0f4fc;">Idrettsveien 14</strong> (850 kvm eid, dansesal) — låst fordi spesialrom for dansegrupper og kulturskolens danseforestillinger ikke kan flyttes uten at funksjonen mistes.
+      </div>
+      <div style="font-size: 11px; color: #bccbe3; line-height: 1.5; margin-top: 8px;">
+        <strong style="color: #f0f4fc;">K26</strong> (170 kvm, kafé + utstilling + lager) — egen bygning i Kontra-nabolaget. Del av sambrukdiskusjonen i runde 5.
+      </div>
+
+      <p class="note">Koordinater er omtrentlige, satt ut fra adresser hentet fra offentlige kilder. Skal valideres av Eiendom før bruk i beslutning. Kartbakgrunnen er © OpenStreetMap-bidragsytere.</p>
+    </aside>
+  </div>
+
+<script>
+// ============ DATA ============
+// Alle bygg med omtrentlige koordinater (lat, lon).
+// Kildekommentar: koordinater hentet fra Google Maps / Kartverket søk på offentlige adresser,
+// og avrundet til 5 desimaler. Må valideres av Eiendom før produksjon.
+const bygg = [
+  // HOVEDADRESSER
+  { navn: "Ski bibliotek (Storsenteret)", type: "hoved", lat: 59.71979, lon: 10.83752,
+    kvm: "ca. 2000 kvm (leid)", note: "Gitt som hovedadresse, ikke til diskusjon", ankere: "📚 bibliotek · historisk arkiv", satellitt: false },
+  { navn: "Kolben kulturhus (Kolbotn)", type: "hoved", lat: 59.81159, lon: 10.79766,
+    kvm: "ca. 1400 kvm (eid)", note: "Gitt som hovedadresse, ikke til diskusjon. Bibliotek + kultur + kino", ankere: "📚 bibliotek · 🎭 kulturhus · 🎹 flygel · 🥁 slagverk", satellitt: false },
+  { navn: "Langhus (potensiell)", type: "hoved-kandidat", lat: 59.75320, lon: 10.84090,
+    kvm: "til diskusjon", note: "Forumets åpne spørsmål: skal dette være nr 3?", ankere: "—", satellitt: false },
+
+  // SENIORSENTRE (diskuteres i r5)
+  { navn: "Toppenhaug seniorsenter", type: "senior", lat: 59.80100, lon: 10.78500,
+    kvm: "ca. 500 kvm", note: "Forebyggende senior-tilbud. Kan potensielt absorberes av Kolben", satellitt: true },
+  { navn: "Svingen seniorsenter", type: "senior", lat: 59.71300, lon: 10.84500,
+    kvm: "ca. 630 kvm", note: "Forebyggende senior-tilbud. Nær Ski. Snekker- og steinslipingsverksted", satellitt: true },
+  { navn: "Kolben senior (leid del)", type: "senior", lat: 59.81100, lon: 10.79900,
+    kvm: "ca. 400 kvm (leid)", note: "Leid del inne i Kolben-komplekset", satellitt: true },
+
+  // KULTURSKOLE
+  { navn: "Kontra kulturskole", type: "kultur", lat: 59.72050, lon: 10.83500,
+    kvm: "ca. 500 kvm", note: "Leiekontrakt løper ut 2031. Ankere: visuell kunst, studio", satellitt: true },
+  { navn: "Idrettsveien 14 (dansesal)", type: "kultur", lat: 59.72500, lon: 10.83200,
+    kvm: "ca. 850 kvm", note: "Eid. Dansesal — låst av spesialrom", satellitt: false },
+
+  // K26 (egen skisse)
+  { navn: "K26 (kafé + utstilling)", type: "senior", lat: 59.72100, lon: 10.83620,
+    kvm: "ca. 170 kvm", note: "Egen skisse. Liten bygning med kafé (44 m²), kjøkken, utstillingsrom", satellitt: true },
+];
+// MERK: Ung fritid (fritidssentre og ungdomskafeer) er bevisst utelatt fra denne workshopen —
+// forvaltes av Ung fritid separat og er ikke med i sambruksdiskusjonen.
+
+// ============ KART-OPPSETT ============
+// Sentrum mellom Ski og Kolbotn
+const map = L.map("map", {
+  center: [59.76500, 10.82000],
+  zoom: 12,
+  zoomControl: true,
+  attributionControl: true,
+});
+
+// Mørk tilepakke (cartodb dark matter)
+L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png", {
+  attribution: '&copy; OpenStreetMap · &copy; CARTO',
+  subdomains: "abcd",
+  maxZoom: 19,
+}).addTo(map);
+
+// ============ MARKØRER ============
+const farger = {
+  "hoved": "#5a9eff",
+  "hoved-kandidat": "#7ab4ff",
+  "bibliotek": "#2e7d5a",
+  "senior": "#5a7fb5",
+  "kultur": "#b5864a",
+  "ung": "#a04a6a",
+};
+
+const markers = [];
+bygg.forEach(b => {
+  const isHoved = b.type === "hoved" || b.type === "hoved-kandidat";
+  const radius = isHoved ? 14 : 8;
+  const fill = farger[b.type] || "#888";
+  const marker = L.circleMarker([b.lat, b.lon], {
+    radius: radius,
+    fillColor: fill,
+    color: isHoved ? "#ffffff" : "#ffffff88",
+    weight: isHoved ? 2 : 1.2,
+    fillOpacity: isHoved ? 0.92 : 0.78,
+    className: `marker marker-${b.type} ${b.satellitt ? "satellitt" : ""}`,
+  });
+  marker.bindPopup(
+    `<div class="bygg-popup">
+      <div class="navn">${b.navn}</div>
+      <div class="info">${b.note || ""}</div>
+      <div class="kvm">${b.kvm || ""}${b.ankere ? " · " + b.ankere : ""}</div>
+    </div>`
+  );
+  marker.addTo(map);
+  markers.push({ marker, data: b });
+});
+
+// ============ ISOCHRON-SIRKLER (15 min til fots = ca. 1 km radius) ============
+const isochronCirkler = [];
+bygg.filter(b => b.type === "hoved" || b.type === "hoved-kandidat").forEach(b => {
+  const c = L.circle([b.lat, b.lon], {
+    radius: 1000, // 1 km = ca. 12-15 min til fots
+    color: "#5a9eff",
+    fillColor: "#5a9eff",
+    fillOpacity: 0.08,
+    weight: 1.5,
+    dashArray: "4 4",
+  });
+  isochronCirkler.push(c);
+});
+
+// ============ VIEW-MODUS ============
+function setView(modus) {
+  document.querySelectorAll(".layer-toggle").forEach(b => b.classList.remove("active"));
+  if (modus === "alle") {
+    document.querySelectorAll(".layer-toggle")[0].classList.add("active");
+    isochronCirkler.forEach(c => map.removeLayer(c));
+    markers.forEach(({ marker, data }) => {
+      marker.setStyle({
+        fillOpacity: data.type === "hoved" || data.type === "hoved-kandidat" ? 0.92 : 0.78,
+        opacity: 1,
+      });
+    });
+  } else if (modus === "isochron") {
+    document.querySelectorAll(".layer-toggle")[1].classList.add("active");
+    isochronCirkler.forEach(c => c.addTo(map));
+    markers.forEach(({ marker, data }) => {
+      marker.setStyle({
+        fillOpacity: data.type === "hoved" || data.type === "hoved-kandidat" ? 0.92 : 0.78,
+        opacity: 1,
+      });
+    });
+  } else if (modus === "etter") {
+    document.querySelectorAll(".layer-toggle")[2].classList.add("active");
+    isochronCirkler.forEach(c => map.removeLayer(c));
+    markers.forEach(({ marker, data }) => {
+      if (data.satellitt) {
+        marker.setStyle({ fillOpacity: 0.15, opacity: 0.35 });
+      } else {
+        marker.setStyle({ fillOpacity: 0.95, opacity: 1 });
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>

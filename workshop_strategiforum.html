@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategiforum — Møteplasser i Nordre Follo · 30.04.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&family=Fraunces:ital,wght@0,300;0,500;0,700;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   NFK MØRK — Nordre Follo visuell profil på mørk cinematic bakgrunn
+   Bygd fra bunnen for Strategiforum 30. april 2026.
+   ===================================================================== */
+:root {
+  /* Bakgrunner — NFK primary #001B35 som grunnstrøm */
+  --bg-primary: #001B35;
+  --bg-deep: #000F1E;
+  --bg-container: #003057;
+  --bg-elevated: #002547;
+  --bg-chapter: #00142A;
+
+  /* Aksenter — NFK secondary (teal) lysnet for mørk flate */
+  --accent: #4FB3B6;
+  --accent-soft: #6ED1D4;
+  --accent-deep: #00696C;
+
+  /* NFK tertiary — mellomblå */
+  --tertiary: #4A7A96;
+  --tertiary-soft: #6A98B5;
+
+  /* Warm editorial accent (NFK har ingen varm — denne er sand) */
+  --warm: #D4A574;
+  --warm-soft: #E5BC8C;
+
+  /* State-farger */
+  --green: #5BB67E;
+  --gold: #E5BC5C;
+  --red: #E07B7B;
+
+  /* Nøytrale — lys tekst på mørkt */
+  --text: #E8F0F5;
+  --text-dim: #A8BECE;
+  --text-faint: #7A96A8;
+
+  --surface: rgba(0, 48, 87, 0.55);
+  --surface-raised: rgba(10, 58, 97, 0.72);
+  --border: rgba(79, 179, 182, 0.22);
+  --border-soft: rgba(79, 179, 182, 0.10);
+
+  /* Radius */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+
+  /* Type-skala (clamp for viewport-tilpasning) */
+  --t-xs: clamp(11px, 0.9vw, 13px);
+  --t-sm: clamp(13px, 1vw, 15px);
+  --t-base: clamp(15px, 1.1vw, 18px);
+  --t-md: clamp(18px, 1.4vw, 22px);
+  --t-lg: clamp(22px, 1.8vw, 30px);
+  --t-xl: clamp(28px, 2.6vw, 42px);
+  --t-2xl: clamp(40px, 4.2vw, 64px);
+  --t-3xl: clamp(56px, 6vw, 96px);
+  --t-4xl: clamp(72px, 8vw, 140px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(ellipse at top, var(--bg-elevated) 0%, var(--bg-deep) 100%);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.deck { height: 100vh; height: 100dvh; width: 100vw; position: relative; overflow: hidden; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: clamp(36px, 4vw, 64px) clamp(48px, 5.5vw, 88px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.slide.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* Typografi */
+.serif { font-family: "Fraunces", "Georgia", serif; }
+.eyebrow {
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: clamp(10px, 1vw, 16px);
+}
+.eyebrow.warm { color: var(--warm); }
+.eyebrow.dim { color: var(--text-faint); }
+
+.display {
+  font-size: var(--t-3xl);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+/* .display.serif-italic fjernet — erstattet med Public Sans for lesbarhet */
+
+.h1 {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(14px, 1.3vw, 22px);
+}
+
+.intro {
+  font-size: var(--t-md);
+  color: var(--text-dim);
+  line-height: 1.5;
+  max-width: 1180px;
+  margin-bottom: clamp(18px, 1.8vw, 28px);
+}
+
+.body { font-size: var(--t-base); color: var(--text-dim); line-height: 1.55; }
+.body strong, .body b { color: var(--text); font-weight: 600; }
+.body em { color: var(--accent-soft); font-style: normal; font-weight: 500; }
+
+/* Footer med slide-nummer */
+.slide-footer {
+  position: absolute;
+  bottom: clamp(18px, 1.8vw, 30px);
+  left: clamp(48px, 5.5vw, 88px);
+  right: clamp(48px, 5.5vw, 88px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--t-xs);
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-soft);
+}
+.slide-footer .num { font-weight: 600; color: var(--accent); letter-spacing: 0.12em; }
+
+/* Hero-slide — renset og sentrert */
+.slide-hero {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--bg-primary);
+  background-image:
+    linear-gradient(135deg, rgba(0, 20, 42, 0.86) 0%, rgba(0, 15, 30, 0.94) 100%),
+    url('images/nfk/ski_1600.jpg');
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+.slide-hero > * {
+  max-width: min(1400px, 92%);
+  margin-left: auto;
+  margin-right: auto;
+}
+.slide-hero .hero-brand {
+  font-size: clamp(11px, 0.85vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: clamp(18px, 2vw, 32px);
+  max-width: 1000px;
+}
+.slide-hero .hero-display {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 800;
+  font-size: clamp(56px, 7vw, 120px);
+  line-height: 0.98;
+  color: #ffffff;
+  letter-spacing: -0.035em;
+}
+.slide-hero .hero-display .accent {
+  color: var(--accent);
+  font-weight: 300;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  padding-left: 0.08em;
+}
+.slide-hero .hero-sub {
+  font-size: clamp(15px, 1.2vw, 20px);
+  color: var(--text-dim);
+  margin-top: clamp(22px, 2.2vw, 36px);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  max-width: 860px;
+  font-weight: 400;
+}
+.slide-hero .hero-meta {
+  margin-top: clamp(30px, 3vw, 48px);
+  font-size: clamp(10px, 0.75vw, 12px);
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  max-width: 1100px;
+}
+
+.slide-hero .ai-panel {
+  max-width: min(1200px, 92%);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Chapter-slide */
+.slide-chapter {
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, var(--bg-chapter) 0%, var(--bg-deep) 100%);
+}
+.slide-chapter .chap-num {
+  font-family: "Fraunces", serif;
+  font-size: clamp(100px, 16vw, 240px);
+  font-weight: 200;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 0.85;
+  opacity: 0.85;
+  margin-bottom: 12px;
+}
+.slide-chapter .chap-title {
+  font-size: var(--t-3xl);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  max-width: 1400px;
+}
+.slide-chapter .chap-meta {
+  margin-top: clamp(18px, 2vw, 32px);
+  font-size: var(--t-sm);
+  color: var(--text-dim);
+  max-width: 800px;
+  line-height: 1.55;
+}
+
+/* Evidens-slide 3 */
+.evidens-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(32px, 4vw, 64px);
+  margin-top: clamp(24px, 2.5vw, 40px);
+  align-items: start;
+}
+.evidens-bignum {
+  font-family: "Fraunces", serif;
+  font-size: clamp(120px, 14vw, 220px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+}
+.evidens-kvm {
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--warm);
+  font-weight: 700;
+  margin-top: 8px;
+}
+.evidens-rader { display: flex; flex-direction: column; gap: 10px; }
+.evidens-rad {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-sm);
+  font-size: var(--t-sm);
+}
+.evidens-rad .label { color: var(--text-dim); }
+.evidens-rad .label .sub { font-size: 10px; color: var(--text-faint); font-weight: 500; margin-left: 6px; }
+.evidens-rad .verdi { color: var(--accent); font-weight: 700; }
+.evidens-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.stat-box {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.stat-box .v { font-size: var(--t-lg); font-weight: 700; color: #fff; }
+.stat-box .l { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+.h-og-m-card {
+  margin-top: clamp(18px, 2vw, 26px);
+  padding: 18px 24px;
+  background: linear-gradient(90deg, rgba(91, 182, 126, 0.12), rgba(91, 182, 126, 0.02));
+  border-left: 3px solid var(--green);
+  border-radius: 0 10px 10px 0;
+  max-width: 1280px;
+}
+.h-og-m-card .tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.h-og-m-card p { font-size: var(--t-sm); line-height: 1.55; color: var(--text); }
+
+.hjemler {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Benchmark-foto (ekte bilder) */
+.bench-foto {
+  height: clamp(140px, 16vw, 220px);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.bench-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 15, 30, 0.85) 100%);
+}
+.bench-foto-asker { background-image: url('images/asker_kulturhus_1200.jpg'); }
+.bench-foto-ks { background-image: url('images/ks_sirkular.png'); background-size: contain; background-repeat: no-repeat; background-color: #003057; }
+.bench-foto-ks::after { background: linear-gradient(180deg, transparent 60%, rgba(0, 15, 30, 0.7) 100%); }
+.bench-foto .foto-year {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #fff;
+  font-weight: 700;
+  z-index: 2;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Popup hero-foto */
+.hero-foto {
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.hero-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 27, 53, 0.7) 100%);
+}
+.hero-foto .hero-label {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+.hero-foto-asker { background-image: url('images/asker_kulturhus_1200.jpg'); }
+.hero-foto-ks { background-image: url('images/ks_sirkular.png'); background-size: contain; background-repeat: no-repeat; background-color: #003057; }
+
+/* Split-foto slide 5 */
+.split-foto-kolben {
+  background-image: url('images/nfk/kolben_1600.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  padding: 0 !important;
+}
+.split-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 27, 53, 0.78) 0%, rgba(0, 15, 30, 0.88) 100%);
+}
+.slide-split .split-bg.split-foto-kolben { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.slide-split .split-bg.split-foto-kolben > .split-mono { position: relative; z-index: 2; color: #fff; text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6); }
+
+/* Benchmark-kort slide 4 */
+.bench-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 1.6vw, 24px);
+  margin-top: clamp(18px, 2vw, 28px);
+}
+.bench-kort {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+.bench-kort:hover { transform: translateY(-4px); border-color: var(--accent); }
+.bench-monogram {
+  height: clamp(140px, 16vw, 220px);
+  position: relative;
+  background: linear-gradient(145deg, var(--bg-container) 0%, var(--bg-primary) 55%, var(--bg-deep) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.bench-monogram::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(79, 179, 182, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(74, 122, 150, 0.20) 0%, transparent 50%);
+  pointer-events: none;
+}
+.bench-monogram .mark {
+  font-family: "Fraunces", serif;
+  font-size: clamp(72px, 10vw, 120px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(232, 240, 245, 0.92);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  z-index: 2;
+}
+.bench-monogram .year {
+  position: absolute;
+  bottom: 14px;
+  right: 18px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(232, 240, 245, 0.55);
+  font-weight: 600;
+  z-index: 2;
+}
+.bench-innhold { padding: clamp(16px, 1.6vw, 22px); flex: 1; display: flex; flex-direction: column; }
+.bench-innhold .sted {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bench-innhold h4 {
+  font-size: var(--t-md);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+.bench-innhold p { font-size: var(--t-sm); color: var(--text-dim); line-height: 1.45; }
+.bench-innhold .more {
+  display: inline-block;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 11px;
+  color: var(--warm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.bench-conclusion {
+  text-align: center;
+  margin-top: clamp(18px, 2vw, 28px);
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--t-lg);
+  color: var(--warm);
+  letter-spacing: -0.01em;
+}
+.bench-sub {
+  text-align: center;
+  font-size: var(--t-sm);
+  color: var(--text-dim);
+  margin-top: 8px;
+  font-style: italic;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Popups */
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 15, 30, 0.88);
+  backdrop-filter: blur(12px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+}
+.popup-backdrop.open { display: flex; }
+.popup {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  max-width: 900px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.popup .hero-mono {
+  height: 220px;
+  background: linear-gradient(145deg, var(--bg-container) 0%, var(--bg-primary) 60%, var(--bg-deep) 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.popup .hero-mono::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(79, 179, 182, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(74, 122, 150, 0.22) 0%, transparent 55%);
+}
+.popup .hero-mono .mark-xl {
+  font-family: "Fraunces", serif;
+  font-size: 180px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(232, 240, 245, 0.85);
+  line-height: 1;
+  z-index: 2;
+}
+.popup .hero-label {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(232, 240, 245, 0.65);
+  font-weight: 600;
+  z-index: 2;
+}
+.popup .lukk {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 15, 30, 0.7);
+  border: 1px solid var(--border);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 3;
+  line-height: 1;
+}
+.popup .lukk:hover { background: var(--accent-deep); }
+.popup .body {
+  padding: clamp(20px, 2.4vw, 32px);
+  overflow-y: auto;
+}
+.popup .body h3 {
+  font-size: var(--t-xl);
+  color: #fff;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.popup .underhead {
+  font-size: var(--t-sm);
+  color: var(--text-faint);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.popup .faktaliste {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.popup .fakta-rad {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  font-size: var(--t-sm);
+}
+.popup .fakta-rad .l { color: var(--text-dim); }
+.popup .fakta-rad .v { color: var(--accent); font-weight: 600; }
+.popup .body p { font-size: var(--t-sm); color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
+.popup .quote {
+  margin: 18px 0;
+  padding: 14px 20px;
+  border-left: 3px solid var(--warm);
+  background: rgba(212, 165, 116, 0.08);
+  font-family: "Public Sans", sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  font-size: var(--t-sm);
+  line-height: 1.55;
+}
+.popup .kilde {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 14px;
+}
+.popup .kilde a { color: var(--accent); text-decoration: none; }
+.popup .kilde a:hover { color: var(--accent-soft); text-decoration: underline; }
+
+/* Split-layout slide 5 */
+.slide-split {
+  padding: 0;
+  flex-direction: row;
+}
+.split-bg {
+  flex: 1;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(79, 179, 182, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(74, 122, 150, 0.22) 0%, transparent 55%),
+    linear-gradient(135deg, var(--bg-container) 0%, var(--bg-primary) 60%, var(--bg-deep) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+.split-bg .split-mono {
+  font-family: "Fraunces", serif;
+  font-size: clamp(120px, 14vw, 220px);
+  font-weight: 200;
+  font-style: italic;
+  color: rgba(232, 240, 245, 0.92);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+.split-innhold {
+  flex: 1.2;
+  padding: clamp(48px, 5vw, 88px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-deep) 100%);
+}
+.split-innhold .kvote {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 500;
+  font-size: var(--t-xl);
+  line-height: 1.3;
+  color: #fff;
+  margin-bottom: 32px;
+  letter-spacing: -0.015em;
+  border-left: 3px solid var(--warm);
+  padding-left: 24px;
+}
+.split-innhold .rekke { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.split-innhold .rekke li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-sm);
+  color: var(--text);
+}
+.split-innhold .rekke .step {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* Cat-cols for categorized-runder */
+.cat-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.2vw, 18px);
+  flex: 1;
+  min-height: 0;
+}
+.cat-col {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-md);
+  padding: clamp(14px, 1.4vw, 20px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.cat-col h4 {
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  font-weight: 700;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.cat-col.kan-flyttes h4 { color: var(--green); }
+.cat-col.ma-vurderes h4 { color: var(--gold); }
+.cat-col.urorlig h4 { color: var(--red); }
+.cat-col .items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.cat-col .items::-webkit-scrollbar { width: 6px; }
+.cat-col .items::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.cat-col .item {
+  padding: 10px 12px;
+  background: var(--bg-container);
+  border-radius: var(--r-xs);
+  font-size: var(--t-xs);
+  line-height: 1.4;
+  color: var(--text);
+  border-left: 2px solid var(--accent);
+}
+
+/* Nåsit-strip (slide 11 og 17) */
+.nasit-strip {
+  display: grid;
+  gap: 10px;
+  margin-bottom: clamp(14px, 1.4vw, 20px);
+}
+.nasit-strip.c5 { grid-template-columns: repeat(5, 1fr); }
+.nasit-strip.c3 { grid-template-columns: repeat(3, 1fr); }
+.nasit-kort {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-size: var(--t-xs);
+  line-height: 1.4;
+}
+.nasit-kort .navn {
+  font-size: var(--t-sm);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.nasit-kort .tag {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--warm);
+  font-weight: 600;
+  margin-left: 5px;
+}
+.nasit-kort .kvm {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.nasit-kort .bruk { color: var(--text-dim); font-size: 11px; line-height: 1.4; }
+
+/* AI-panel (slide 8, 19, 21, 22) — ALL AI-OUTPUT VISES TIL ALLE */
+.ai-panel {
+  margin-top: clamp(16px, 1.6vw, 24px);
+  padding: clamp(18px, 1.8vw, 26px) clamp(22px, 2.2vw, 32px);
+  background: linear-gradient(135deg, rgba(79, 179, 182, 0.10) 0%, rgba(74, 122, 150, 0.05) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  position: relative;
+  max-width: 1400px;
+}
+.ai-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.ai-panel-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ai-panel-tag::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(79, 179, 182, 0.18);
+  animation: ai-pulse 2s infinite var(--ease-in-out);
+}
+@keyframes ai-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(79, 179, 182, 0.18); }
+  50% { box-shadow: 0 0 0 8px rgba(79, 179, 182, 0.04); }
+}
+.ai-btn {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  padding: 8px 18px;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ai-btn:hover { background: var(--accent-soft); }
+.ai-btn:disabled { opacity: 0.5; cursor: wait; }
+.ai-btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.ai-btn.secondary:hover { background: rgba(79, 179, 182, 0.12); }
+
+.ai-output {
+  font-size: var(--t-base);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 40px;
+}
+.ai-output .placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+  font-size: var(--t-sm);
+}
+.ai-output ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.ai-output ul li {
+  padding: 12px 16px;
+  background: rgba(0, 48, 87, 0.4);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-sm);
+}
+.ai-output .serif-quote {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 500;
+  font-size: var(--t-lg);
+  line-height: 1.35;
+  color: #fff;
+  padding: 14px 20px;
+  border-left: 3px solid var(--warm);
+  background: rgba(212, 165, 116, 0.08);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+.ai-meta {
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 10px;
+}
+
+/* KD-inngrep */
+.kd-inngrep {
+  display: flex;
+  gap: clamp(24px, 2.5vw, 40px);
+  align-items: center;
+  max-width: 1200px;
+  margin: clamp(20px, 2vw, 32px) auto;
+}
+.kd-monogram {
+  width: clamp(120px, 12vw, 180px);
+  height: clamp(120px, 12vw, 180px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bg-container), var(--bg-deep));
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fraunces", serif;
+  font-size: clamp(60px, 6vw, 96px);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.kd-body { flex: 1; }
+.kd-body .who {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--warm);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.kd-body .setning {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 500;
+  font-size: var(--t-lg);
+  line-height: 1.35;
+  color: #fff;
+  letter-spacing: -0.01em;
+  padding-left: 20px;
+  border-left: 3px solid var(--warm);
+}
+
+/* Kvote-sitat (slide 21 — KD-setningen editorbar) */
+.kd-setning-editor {
+  font-family: "Public Sans", sans-serif;
+  font-weight: 500;
+  font-size: var(--t-lg);
+  line-height: 1.4;
+  color: #fff;
+  padding: clamp(20px, 2vw, 32px) clamp(30px, 3vw, 48px);
+  background: linear-gradient(135deg, rgba(0, 48, 87, 0.45), rgba(0, 27, 53, 0.25));
+  border-left: 4px solid var(--warm);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  max-width: 1400px;
+  outline: none;
+  transition: background 0.2s;
+  position: relative;
+}
+.kd-setning-editor:focus { background: linear-gradient(135deg, rgba(0, 48, 87, 0.6), rgba(0, 27, 53, 0.4)); }
+.kd-setning-editor::before {
+  content: '"';
+  position: absolute;
+  left: -20px;
+  top: -40px;
+  font-size: 140px;
+  color: var(--warm);
+  opacity: 0.2;
+  font-family: "Fraunces", serif;
+  line-height: 1;
+}
+
+/* Rating-runder */
+.rating-display {
+  display: flex;
+  gap: clamp(24px, 2.5vw, 40px);
+  align-items: center;
+  margin-top: clamp(20px, 2vw, 32px);
+}
+.rating-bignum {
+  font-family: "Fraunces", serif;
+  font-size: clamp(120px, 14vw, 200px);
+  font-weight: 300;
+  color: #fff;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+.rating-bignum .max {
+  font-size: 0.35em;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+.rating-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.rating-count, .rating-spread {
+  font-size: var(--t-sm);
+  color: var(--text-dim);
+}
+.rating-count .v, .rating-spread .v {
+  font-size: var(--t-md);
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+}
+.rating-tolkning {
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: rgba(79, 179, 182, 0.08);
+  border-left: 2px solid var(--accent);
+  font-size: var(--t-sm);
+  color: var(--accent-soft);
+  font-weight: 500;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+
+/* Innspillsgalleri (runder med bordsvar) */
+.innspill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-top: clamp(14px, 1.4vw, 20px);
+}
+.innspill-grid::-webkit-scrollbar { width: 6px; }
+.innspill-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.innspill {
+  padding: 12px 16px;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-sm);
+  color: var(--text);
+  line-height: 1.5;
+}
+.innspill .bord {
+  display: block;
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* Live-indikator */
+.live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+}
+.live-dot::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: live-pulse 1.8s infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(91, 182, 126, 0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(91, 182, 126, 0); }
+}
+
+/* Hovedadr-nasit-strip slide 11 */
+.hovedadr-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 12px 0 18px 0;
+}
+.hovedadr-strip .h-kort {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  font-size: var(--t-xs);
+  line-height: 1.4;
+}
+.hovedadr-strip .h-navn {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.hovedadr-strip .h-total {
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--t-sm);
+  margin-bottom: 4px;
+}
+.hovedadr-strip .h-detalj { color: var(--text-dim); font-size: 11px; }
+
+/* Fasilitatornoter (toggle F) */
+.facnotes {
+  position: absolute;
+  bottom: clamp(42px, 4.2vw, 58px);
+  left: clamp(48px, 5.5vw, 88px);
+  right: clamp(48px, 5.5vw, 88px);
+  padding: 14px 18px;
+  background: rgba(228, 188, 92, 0.08);
+  border: 1px dashed rgba(228, 188, 92, 0.35);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+.facnotes.visible { display: block; }
+.facnotes .tag {
+  display: inline-block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  font-weight: 700;
+  margin-right: 8px;
+}
+.facnotes strong { color: var(--text); }
+
+/* Navigasjon */
+.nav-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease-out);
+  z-index: 100;
+  box-shadow: 0 0 12px var(--accent);
+}
+.nav-info {
+  position: fixed;
+  bottom: 14px;
+  right: 20px;
+  font-size: 10px;
+  color: var(--text-faint);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 50;
+  font-weight: 600;
+}
+.ws-status {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 50;
+}
+.ws-status .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+.ws-status.live .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.ws-status.live { color: var(--green); }
+
+/* Regel-strip (fjernet dagsenter — brukes andre steder) */
+.regel-strip {
+  padding: 12px 18px;
+  background: rgba(79, 179, 182, 0.07);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-sm);
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.regel-strip strong { color: var(--accent); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .slide, .ai-panel-tag::before, .ws-status .dot, .live-dot::before {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Print — skjul fasilitatornoter */
+@media print {
+  .facnotes, .nav-info, .ws-status, .nav-progress { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-progress" id="progressBar" style="width: 0%"></div>
+<div class="ws-status" id="wsStatus"><span class="dot"></span><span id="wsLabel">Offline</span></div>
+<div class="nav-info">← → for å navigere · F for fasilitatornoter</div>
+
+<div class="deck" id="deck">
+
+  <!-- ================================================================
+       SLIDE 1 — HERO
+       ================================================================ -->
+  <section class="slide slide-hero active">
+    <div class="hero-brand">Nordre Follo kommune · Strategiforum · 30. april 2026</div>
+    <div class="hero-display">Møteplasser<br>i <span class="accent">2035</span></div>
+    <div class="hero-sub">Velg hva møteplassene skal være. Vurder hvor. Se hva vi kan gi slipp på.</div>
+    <div class="hero-meta">Kommunedirektørens strategiforum · direktører og kommunalsjefer · 180 minutter</div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 2 — KART (Leaflet åpnes i popup / embed)
+       ================================================================ -->
+  <section class="slide">
+    <div class="eyebrow">Nordre Follo i dag · ca. 20 lokasjoner</div>
+    <h1 class="h1">Kartet over der vi holder til.</h1>
+    <p class="intro">Bibliotek, kulturskole, seniorsentre og K26 — spredt over kommunen. Klyngene i Kolbotn og rundt Ski sentrum er tydelige. Langhus har ingen hovedadresse i dag.</p>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+      <button class="ai-btn" onclick="window.open('nf_kart.html', '_blank')" style="padding: 16px 32px; font-size: 13px;">Åpne Leaflet-kart i nytt vindu →</button>
+    </div>
+    <div class="slide-footer"><span>Therese · åpne kart ved spørsmål</span><span class="num">2 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Ikke bli stående på kartet. Det er referanse. Åpne popup hvis noen spør "hvor ligger Toppenhaug". Landing: "tre klynger, én uten hovedadresse".
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 3 — EVIDENS
+       ================================================================ -->
+  <section class="slide">
+    <div class="eyebrow">Grunnlaget · anslag kvalitetssikres før leveranse 30. mai</div>
+    <div class="display">Vi snakker om<br>over åtte tusen kvadratmeter.</div>
+    <div class="evidens-grid">
+      <div>
+        <div class="evidens-bignum">8 312</div>
+        <div class="evidens-kvm">kvadratmeter samlet</div>
+      </div>
+      <div class="evidens-rader">
+        <div class="evidens-rad"><span class="label">Leid areal</span><span class="verdi">ca. 3 250 kvm</span></div>
+        <div class="evidens-rad"><span class="label">Eid areal <span class="sub">(inkl. K26)</span></span><span class="verdi">ca. 5 062 kvm</span></div>
+        <div class="evidens-stats">
+          <div class="stat-box"><span class="v">65 300</span><span class="l">Innbyggere</span></div>
+          <div class="stat-box"><span class="v">12,6</span><span class="l">kvm per 100</span></div>
+          <div class="stat-box"><span class="v">~20</span><span class="l">Lokasjoner</span></div>
+          <div class="stat-box"><span class="v">2</span><span class="l">Lovpålagte</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="h-og-m-card">
+      <div class="tag">Forebyggingsperspektivet · Helse og mestring</div>
+      <p>Foreløpige vurderinger fra Helse og mestring indikerer at behovet for sykehjemsplasser kan <strong>utsettes</strong> gjennom godt åpent senior-tilbud. Skillet mellom <em>vedtaksbaserte dagsenter-plasser</em> og <em>forebyggende senior-tilbud</em> er tydelig. <strong>Vedtaksbaserte plasser er ikke til diskusjon.</strong> Forebyggingen er argument <em>for</em> sterke senior-møteplasser.</p>
+    </div>
+    <div class="hjemler">Hjemler · bibliotekloven · opplæringsloven §13-6 · kulturloven · folkehelseloven</div>
+    <div class="slide-footer"><span>Therese · 2 min</span><span class="num">3 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      "Foreløpige vurderinger indikerer" — ikke gjør sterkere. Vedtaksbaserte dagsenter-plasser sies eksplisitt å være urørlige. 8 312 = 3 250 leid + 5 062 eid (K26 inkludert i eid). Oppdatert 14/4 etter Thereses korrigering.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 4 — BENCHMARKING (uten base64-bilder, monogram-kort)
+       ================================================================ -->
+  <section class="slide">
+    <h1 class="h1">Vi er ikke først.</h1>
+    <p class="intro">Andre kommuner og KS har gått veien før oss. Klikk et kort for fakta og kilder.</p>
+    <div class="bench-grid">
+      <div class="bench-kort" onclick="visPopup('lillestrom')">
+        <div class="bench-monogram"><div class="mark">L</div><div class="year">2022</div></div>
+        <div class="bench-innhold">
+          <div class="sted">Lillestrøm · 2022</div>
+          <h4>Lillestrøm bibliotek</h4>
+          <p>3 000 kvm over tre etasjer, samlokalisert med kulturskolen ved togstasjonen.</p>
+          <span class="more">Klikk for fakta →</span>
+        </div>
+      </div>
+      <div class="bench-kort" onclick="visPopup('asker')">
+        <div class="bench-foto bench-foto-asker"><div class="foto-year">Asker · 2022</div></div>
+        <div class="bench-innhold">
+          <div class="sted">Asker</div>
+          <h4>Asker kulturhus + Kulturhjørnet</h4>
+          <p>Bibliotek, kultur og seniorfunksjoner samme bygg, dør-i-dør med Trekanten.</p>
+          <span class="more">Klikk for fakta →</span>
+        </div>
+      </div>
+      <div class="bench-kort" onclick="visPopup('ks')">
+        <div class="bench-foto bench-foto-ks"><div class="foto-year">KS · 2022</div></div>
+        <div class="bench-innhold">
+          <div class="sted">KS · 2022</div>
+          <h4>Veileder for sirkulærøkonomi</h4>
+          <p>Peker eksplisitt på sambruk som sentral strategi for arealeffektivisering.</p>
+          <span class="more">Klikk for fakta →</span>
+        </div>
+      </div>
+    </div>
+    <div class="bench-conclusion">Vi er ikke først. Vi er i tide.</div>
+    <div class="bench-sub">Det betyr ikke at det er enkelt. Lillestrøm brukte fire år og hadde motstand. Vi har tre timer — derfor må dette være ekte.</div>
+    <div class="slide-footer"><span>Therese · benchmarking</span><span class="num">4 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Klikk Asker-kortet hvis noen spør. Ikke bli lenge i popupene. Landing: "Vi er ikke først. Vi er i tide." Lillestrøm-bildet er bevisst erstattet med monogram til vi har verifisert rett kilde.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 5 — NARRATIV (split-layout, monogram i stedet for bilde)
+       ================================================================ -->
+  <section class="slide slide-split">
+    <div class="split-bg split-foto-kolben">
+      <div class="split-overlay"></div>
+      <div class="split-mono">Tre<br>steg.</div>
+    </div>
+    <div class="split-innhold">
+      <div class="kvote">"Vi har ikke for lite areal. Vi har for tynt liv — og for tynt liv koster oss penger vi trenger til noe annet."</div>
+      <ul class="rekke">
+        <li><span class="step">1</span><span>Velg <strong>hva</strong> møteplassene skal være</span></li>
+        <li><span class="step">2</span><span>Vurder <strong>hvor</strong></span></li>
+        <li><span class="step">3</span><span>Se <strong>hva vi kan gi slipp på</strong></span></li>
+      </ul>
+    </div>
+    <div class="slide-footer" style="left: 50%; right: clamp(48px, 5.5vw, 88px);"><span>Øyvind · 3 min</span><span class="num">5 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 6 — Overgang til rundene
+       ================================================================ -->
+  <section class="slide">
+    <div class="eyebrow">Nå starter dere</div>
+    <h1 class="h1">Syv runder.<br>Tre timer.<br>Én retning.</h1>
+    <div class="body" style="margin-top: clamp(20px, 2vw, 32px); max-width: 1200px;">
+      <p>Hver runde har ett spørsmål. Hvert bord svarer sammen — sekretæren skriver inn. Det som kommer ut vises live på skjermen, og AI binder trådene sammen mellom rundene. Alt som AI foreslår vises til <strong>hele rommet</strong> — dere kan rette, avvise eller godkjenne sammen.</p>
+      <p style="margin-top: 14px;">Kommunedirektøren tar ordet fem ganger underveis. Ikke for å konkludere — for å holde rammen.</p>
+    </div>
+    <div class="slide-footer"><span>6 min til alle er på plass</span><span class="num">6 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Sjekk at alle 10 bord er koblet til før du aktiverer runde 1. AI-knappene er synlige — men ikke trykk før du har lest opp det som kommer ut til rommet.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 7 — RUNDE 1 bilde2035
+       ================================================================ -->
+  <section class="slide" data-live-round="r1_bilde2035">
+    <div class="eyebrow">Runde 1 · freetext · 6 min</div>
+    <h1 class="h1">Bildet av 2035.</h1>
+    <p class="intro">Når du ser for deg en levende møteplass i Nordre Follo i 2035 — hva er det <em>første</em> du ser? Én setning per bord.</p>
+    <div class="innspill-grid" id="innspill-r1_bilde2035"></div>
+    <div class="slide-footer"><span><span class="live-dot">Live</span> · 6 min</span><span class="num">7 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Ikke kommenter enkeltsvar. Bare "flott, nå har vi noe å jobbe med". Disse svarene blir kontekst for AI-destilleringen i runde 2.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 8 — RUNDE 2 prinsipper (AI destillering)
+       ================================================================ -->
+  <section class="slide" data-live-round="r2_prinsipper">
+    <div class="eyebrow">Runde 2 · freetext → AI-destillering · 13 min</div>
+    <h1 class="h1">Hva kjennetegner en hovedadresse?</h1>
+    <p class="intro">Ikke et bygg. En <em>hovedadresse</em>. Én setning per bord. Etter 7 min trykker Therese "Destiller" — Gemini leser bildene fra runde 1 + deres svar og foreslår 3–4 prinsipper som vises til hele rommet.</p>
+    <div class="innspill-grid" id="innspill-r2_prinsipper" style="max-height: 32vh;"></div>
+    <div class="ai-panel" id="ai-r2">
+      <div class="ai-panel-header">
+        <div class="ai-panel-tag">Gemini · prinsipper</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="ai-btn secondary" onclick="aiRegenerate('r2_prinsipper', '/api/destill-prinsipper')">Regenerer</button>
+          <button class="ai-btn" onclick="aiTrigger('r2_prinsipper', '/api/destill-prinsipper')">Destiller nå</button>
+        </div>
+      </div>
+      <div class="ai-output" id="ai-out-r2"><span class="placeholder">Ingen destillerte prinsipper enda. Trykk "Destiller nå" etter at bordene har svart.</span></div>
+      <div class="ai-meta" id="ai-meta-r2"></div>
+    </div>
+    <div class="slide-footer"><span>Runde 2 · 13 min · Therese destillerer etter 7 min</span><span class="num">8 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 9 — KD-inngrep 1 (prinsipper)
+       ================================================================ -->
+  <section class="slide" style="justify-content: center;">
+    <div class="eyebrow warm">Kommunedirektørens inngrep · 1 av 5</div>
+    <div class="display">Prinsippene<br>slik jeg hører dem.</div>
+    <div class="kd-inngrep">
+      <div class="kd-monogram">Ø</div>
+      <div class="kd-body">
+        <div class="who">Øyvind snakker · 2 min</div>
+        <div class="setning">"Jeg hører fire ting. [leser prinsippene med egne ord]. Det er disse jeg kommer til å bruke i samtaler med ordfører og kommunestyret."</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Øyvind · inngrep 1 av 5</span><span class="num">9 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Ikke gå tilbake eller kommenter etter. Han lander, du går videre til slide 10.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 10 — Oppsummering
+       ================================================================ -->
+  <section class="slide">
+    <h1 class="h1">Så langt.</h1>
+    <div class="body" style="margin-top: clamp(20px, 2vw, 32px); font-size: var(--t-md); line-height: 1.7;">
+      <p>✓ Bilder av 2035 er delt.</p>
+      <p>✓ 3–4 prinsipper er destillert og eierskapt av kommunedirektøren.</p>
+      <p style="margin-top: 18px; color: var(--accent);">Nå går vi fra <em>hva</em> til <em>hvor</em>: tre konkrete møteplasser.</p>
+    </div>
+    <div class="slide-footer"><span>Therese · 1 min</span><span class="num">10 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 11 — RUNDE 3 hovedadresser (med nåsit-strip)
+       ================================================================ -->
+  <section class="slide" data-live-round="r3_hovedadresser">
+    <div class="eyebrow">Runde 3 · categorized · 23 min</div>
+    <h1 class="h1">Målgrupper og magneter per møteplass.</h1>
+    <p class="intro">For hver av de tre møteplassene — hvem er de for, og hva er <em>magneten</em> som drar dem inn? Format: <code>målgruppe — magnet-aktivitet</code></p>
+    <p class="body" style="font-size: var(--t-sm); color: var(--text-faint); margin-bottom: 12px;">
+      Eksempler: <em>Eldre — trening og café</em> · <em>Ungdom — gaming, samlingssted og kjøkkenaktiviteter</em> · <em>Frivillighet — møteplass og foredrag</em>
+    </p>
+    <div class="hovedadr-strip">
+      <div class="h-kort"><div class="h-navn">Ski i dag</div><div class="h-total">Bibliotek ca. 1 843 kvm</div><div class="h-detalj">Biblioteksal 1 296 · lesesal 107 · ungdomsavd 65 · historisk arkiv 68</div></div>
+      <div class="h-kort"><div class="h-navn">Kolbotn i dag</div><div class="h-total">Bibliotek 1 426 · Kolben 842 · Kontra 1 580 (+350 leid)</div><div class="h-detalj">Biblioteksal 997 · galleri 82 · kulturskolens musikk/dans/kunst · til 2031 på Kontra</div></div>
+      <div class="h-kort"><div class="h-navn">Langhus i dag</div><div class="h-total">Ingen hovedadresse</div><div class="h-detalj">Hypotesen dere skal tegne. Hva ville vært her hvis det var en tredje?</div></div>
+    </div>
+    <div class="cat-cols">
+      <div class="cat-col"><h4>Ski</h4><div class="items" id="r3-Ski"></div></div>
+      <div class="cat-col"><h4>Kolbotn</h4><div class="items" id="r3-Kolbotn"></div></div>
+      <div class="cat-col"><h4>Langhus (hypotese)</h4><div class="items" id="r3-Langhus"></div></div>
+    </div>
+    <div class="slide-footer"><span><span class="live-dot">Live</span> · 23 min · prinsippene fra r2 hjelper</span><span class="num">11 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Lengste runde. Hvis gruppene bare jobber med favoritten sin — minn om at alle tre må dekkes. Nåsit-strip gir dem reelt grunnlag.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 12 — Overgang til Langhus
+       ================================================================ -->
+  <section class="slide">
+    <div class="eyebrow">Syntese</div>
+    <h1 class="h1">Tre steder tegnet.<br>Ett spørsmål igjen.</h1>
+    <p class="intro" style="margin-top: 24px; font-size: var(--t-md);">
+      Dere har tegnet hva Ski, Kolbotn og Langhus <em>ville</em> vært.<br>
+      Nå: skal Langhus faktisk være kommunens tredje hovedadresse?
+    </p>
+    <div class="slide-footer"><span>Therese — overgang til Langhus-avgjørelse</span><span class="num">12 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 13 — RUNDE 4 Langhus informert
+       ================================================================ -->
+  <section class="slide" data-live-round="r4_langhus">
+    <div class="eyebrow">Runde 4 · rating 1–5 · 11 min</div>
+    <h1 class="h1">Skal Langhus være nr 3?</h1>
+    <p class="intro">1 = nei, 3 = kan leve med, 5 = helt. Legg ved betingelser.</p>
+    <div class="rating-display">
+      <div class="rating-bignum"><span id="r4-avg">—</span><span class="max">/5</span></div>
+      <div class="rating-meta">
+        <div class="rating-count"><span class="v" id="r4-count">0</span>grupper har svart</div>
+        <div class="rating-spread"><span class="v" id="r4-spread">—</span>spredning (std.avvik)</div>
+        <div class="rating-tolkning" id="r4-tolkning">Venter på svar</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span><span class="live-dot">Live</span> · 11 min</span><span class="num">13 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Hvis diskusjonen glir mot senior-bekymringer: "Sterk senior-funksjon på Langhus er argument <em>for</em>, ikke mot. Ingen nevning av hjemmesykepleie."
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 14 — KD-inngrep 3 (Langhus-lesning)
+       ================================================================ -->
+  <section class="slide" style="justify-content: center;">
+    <div class="eyebrow warm">Kommunedirektørens inngrep · 3 av 5</div>
+    <div class="display">Langhus<br>slik jeg leser det.</div>
+    <div class="kd-inngrep">
+      <div class="kd-monogram">Ø</div>
+      <div class="kd-body">
+        <div class="who">Øyvind · 3 min · har tre forberedte formuleringer</div>
+        <div class="setning">"Avhengig av hvordan dere har svart, vil jeg lese retningen ut for dere."</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Øyvind · inngrep 3 av 5</span><span class="num">14 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 15 — Leaflet "etter"
+       ================================================================ -->
+  <section class="slide slide-hero">
+    <div class="hero-brand">Hovedadresser — slik dere tegnet det</div>
+    <div class="hero-display">Ski.<br>Kolbotn.<br>+ betingelser.</div>
+    <div class="hero-sub">Tre adresser. Hver med sin magnet. Nå: hva kan vi gi slipp på?</div>
+    <div class="hero-meta">15 / 22</div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 16 — Kapittel 3: Hva kan vi gi slipp på
+       ================================================================ -->
+  <section class="slide slide-chapter">
+    <div class="chap-num">III</div>
+    <div class="chap-title">Hva kan vi<br>gi slipp på?</div>
+    <div class="chap-meta">Fem satellitter. Kartlegging foran dere. Sorter — og vær ærlige om hvorfor.</div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 17 — RUNDE 5 satellitter (nåsit-strip + kategorier)
+       ================================================================ -->
+  <section class="slide" data-live-round="r5_satellitter">
+    <div class="eyebrow">Runde 5 · categorized · 17 min</div>
+    <h1 class="h1">Satellittene.</h1>
+    <p class="intro">Fem bygg. Sorter i gruppen. Satellittene skal også ivareta møteplass for ungdom i aldersgruppen 15–20.</p>
+    <div class="nasit-strip c5">
+      <div class="nasit-kort"><div class="navn">Toppenhaug</div><div class="kvm">ca. 480 kvm</div><div class="bruk">Kafé/quiz/bingo man–fre · snekkerverksted · fotpleie · stue</div></div>
+      <div class="nasit-kort"><div class="navn">Svingen</div><div class="kvm">ca. 655 kvm</div><div class="bruk">Kafé man–fre · sløyd · håndarbeid · trening · språkkurs · kjøkken</div></div>
+      <div class="nasit-kort"><div class="navn">Kolben senior <span class="tag">leid</span></div><div class="kvm">ca. 520 kvm</div><div class="bruk">Kafé · trening man/ons/tors · quiz · leier av Samfunnshuset</div></div>
+      <div class="nasit-kort"><div class="navn">Kontra kulturskole <span class="tag">til 2031</span></div><div class="kvm">1 580 + 350 leid</div><div class="bruk">Musikk · dans · visuell kunst · teater · band · slagverk</div></div>
+      <div class="nasit-kort"><div class="navn">K26</div><div class="kvm">ca. 170 kvm</div><div class="bruk">Kafé · kjøkken · utstilling</div></div>
+    </div>
+    <div class="cat-cols">
+      <div class="cat-col kan-flyttes"><h4>Kan flyttes</h4><div class="items" id="r5-Kan flyttes"></div></div>
+      <div class="cat-col ma-vurderes"><h4>Må vurderes</h4><div class="items" id="r5-Må vurderes"></div></div>
+      <div class="cat-col urorlig"><h4>Urørlig</h4><div class="items" id="r5-Urørlig"></div></div>
+    </div>
+    <div class="slide-footer"><span><span class="live-dot">Live</span> · 17 min</span><span class="num">17 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Senior-møteplasser er forebygging. Ungdom 15–20 trenger også et sted. <strong>Skjult mulighet:</strong> Hvis en gruppe foreslår at dagsenter kan integreres i en møteplass — ta det imot og noter. Ikke løft det først.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 18 — KD-inngrep 4 (økonomi-oppdraget)
+       ================================================================ -->
+  <section class="slide" style="justify-content: center;">
+    <div class="eyebrow warm">Kommunedirektørens inngrep · 4 av 5</div>
+    <div class="display">Økonomi-<br>oppdraget.</div>
+    <div class="kd-inngrep">
+      <div class="kd-monogram">Ø</div>
+      <div class="kd-body">
+        <div class="who">Øyvind · 7 min · viktigste replikk</div>
+        <div class="setning">"Arbeidsgruppen skal vise skillet mellom vedtaksbaserte dagsenter-plasser og det forebyggende senior-tilbudet. Jeg vil se tall. Begge trenger møteplasser. Begge har plass i vår portefølje."</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Øyvind · inngrep 4 av 5 · 7 min</span><span class="num">18 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 19 — RUNDE 6 dilemma (med AI-kobling)
+       ================================================================ -->
+  <section class="slide" data-live-round="r6_dilemma">
+    <div class="eyebrow">Runde 6 · freetext → AI-kobling · 8 min</div>
+    <h1 class="h1">Dilemma-eierskap.</h1>
+    <p class="intro">Hvilket dilemma tar din gruppe <em>personlig eierskap</em> til å følge opp etter forumet? Når bordene er ferdige, kobler Gemini hvert dilemma til prinsippene fra runde 2 — vises til alle.</p>
+    <div class="innspill-grid" id="innspill-r6_dilemma" style="max-height: 28vh;"></div>
+    <div class="ai-panel" id="ai-r6">
+      <div class="ai-panel-header">
+        <div class="ai-panel-tag">Gemini · dilemma ↔ prinsipper</div>
+        <button class="ai-btn" onclick="aiTrigger('r6_dilemma', '/api/koble-dilemma')">Koble til prinsipper</button>
+      </div>
+      <div class="ai-output" id="ai-out-r6"><span class="placeholder">Ingen kobling enda. Trykk "Koble til prinsipper" når bordene har lagt inn dilemmaene sine.</span></div>
+      <div class="ai-meta" id="ai-meta-r6"></div>
+    </div>
+    <div class="slide-footer"><span>Runde 6 · 8 min</span><span class="num">19 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 20 — RUNDE 7 konsensus
+       ================================================================ -->
+  <section class="slide" data-live-round="r7_konsensus">
+    <div class="eyebrow">Runde 7 · rating · 5 min</div>
+    <h1 class="h1">Samlet konsensus.</h1>
+    <p class="intro">Kan din gruppe stille seg bak retningen vi har landet på i dag? 1 = nei, 3 = kan leve med, 5 = helt.</p>
+    <div class="rating-display">
+      <div class="rating-bignum"><span id="r7-avg">—</span><span class="max">/5</span></div>
+      <div class="rating-meta">
+        <div class="rating-count"><span class="v" id="r7-count">0</span>grupper har svart</div>
+        <div class="rating-spread"><span class="v" id="r7-spread">—</span>spredning (std.avvik)</div>
+        <div class="rating-tolkning" id="r7-tolkning">Venter på svar</div>
+      </div>
+    </div>
+    <div class="slide-footer"><span><span class="live-dot">Live</span> · 5 min · temperaturmåling</span><span class="num">20 / 22</span></div>
+    <div class="facnotes">
+      <span class="tag">Fasilitator</span>
+      Høyt snitt med lav spredning = solid mandat. Høyt snitt med høy spredning = skjult uenighet.
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 21 — KD-setning (AI-utkast, Øyvind justerer)
+       ================================================================ -->
+  <section class="slide" style="justify-content: center; padding: clamp(36px, 4vw, 64px) clamp(60px, 6vw, 100px);">
+    <div class="eyebrow warm">Kommunedirektørens inngrep · 5 av 5</div>
+    <div class="display">Retningen<br>slik jeg leser den.</div>
+    <div class="ai-panel" id="ai-r21" style="margin-top: clamp(20px, 2vw, 32px);">
+      <div class="ai-panel-header">
+        <div class="ai-panel-tag">Gemini · utkast til kommunedirektøren</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="ai-btn secondary" onclick="aiTrigger('kd_utkast', '/api/kd-utkast')">Regenerer utkast</button>
+          <button class="ai-btn" onclick="aiTrigger('kd_utkast', '/api/kd-utkast')">Generer utkast</button>
+        </div>
+      </div>
+      <div class="ai-output" id="ai-out-r21">
+        <div class="kd-setning-editor" id="kd-setning" contenteditable="true" spellcheck="false">Nordre Follos møteplasser i 2035 er samlet på få, sterke adresser. Vi bygger dagen rundt mennesker og aktiviteter, ikke rundt bygg. Og vi gir slipp på det som ikke bærer sin egen vekt — samtidig som vi styrker det forebyggende: både det som utsetter sykehjemsbehovet og det som gir ungdom et sted å høre til.</div>
+      </div>
+      <div class="ai-meta" id="ai-meta-r21">Øyvind kan redigere direkte i feltet · utkastet tar utgangspunkt i prinsippene, Langhus-resultatet, satellittene og dilemmaene</div>
+    </div>
+    <div class="slide-footer"><span>Øyvind · inngrep 5 av 5 · 3 min</span><span class="num">21 / 22</span></div>
+  </section>
+
+  <!-- ================================================================
+       SLIDE 22 — Avslutning (AI-sluttsyntese)
+       ================================================================ -->
+  <section class="slide slide-hero">
+    <div class="hero-brand">Takk · 30. april 2026 · arbeidsgruppens leveranse innen 30. mai</div>
+    <div class="hero-display">Vi har ikke<br>landet det ferdig.<br>Vi har landet<br>retningen.</div>
+    <div class="ai-panel" id="ai-r22" style="max-width: 1200px; margin: clamp(28px, 3vw, 48px) auto 0;">
+      <div class="ai-panel-header">
+        <div class="ai-panel-tag">Gemini · sluttsyntese</div>
+        <button class="ai-btn" onclick="aiTrigger('sluttsyntese', '/api/sluttsyntese')">Generer sluttsyntese</button>
+      </div>
+      <div class="ai-output" id="ai-out-r22">
+        <span class="placeholder">Trykk "Generer sluttsyntese" når dagen er ferdig — AI leser hele workshopen og skriver én setning som binder alt sammen. Vises til alle.</span>
+      </div>
+      <div class="ai-meta" id="ai-meta-r22"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =====================================================================
+   STRATEGIFORUM v3 — JS
+   - Slideshow med keyboard-nav
+   - WebSocket-kobling til workshop_server.py
+   - AI-trigger for destillering, dilemma-kobling, kd-utkast, sluttsyntese
+   - Alle AI-resultater broadcastes til hele rommet via WS
+   ===================================================================== */
+
+// WORKSHOP_URL — smart autodetect:
+//   1. window.WORKSHOP_URL satt eksplisitt (override)
+//   2. ?local i URL → localhost
+//   3. HTML servert av FastAPI (http/https) → window.location.origin
+//   4. HTML åpnet som fil (file://) → hardkodet Render-URL (oppdater før dagen)
+const RENDER_URL = 'https://strategiforum-workshop.onrender.com';
+const WORKSHOP_URL = (() => {
+  if (window.WORKSHOP_URL) return window.WORKSHOP_URL;
+  if (window.location.search.includes('local')) return 'http://localhost:8000';
+  if (window.location.protocol === 'file:') return RENDER_URL;
+  return window.location.origin;
+})();
+console.log('[workshop] bruker server:', WORKSHOP_URL);
+
+const slides = Array.from(document.querySelectorAll('.slide'));
+let current = 0;
+
+function showSlide(idx) {
+  idx = Math.max(0, Math.min(slides.length - 1, idx));
+  slides[current].classList.remove('active');
+  slides[idx].classList.add('active');
+  current = idx;
+  updateProgress();
+}
+function updateProgress() {
+  const pct = ((current + 1) / slides.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+function next() { showSlide(current + 1); }
+function prev() { showSlide(current - 1); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.target.isContentEditable) return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+  else if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+  else if (e.key === 'End') { e.preventDefault(); showSlide(slides.length - 1); }
+  else if (e.key === 'f' || e.key === 'F') {
+    document.querySelectorAll('.facnotes').forEach(f => f.classList.toggle('visible'));
+  }
+});
+
+// Touch/swipe
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) dx < 0 ? next() : prev();
+});
+
+updateProgress();
+
+/* ---------- POPUPS ---------- */
+function visPopup(id) {
+  const el = document.getElementById('popup-' + id);
+  if (el) el.classList.add('open');
+}
+function lukkPopup(e) {
+  if (e.target.classList.contains('popup-backdrop')) e.target.classList.remove('open');
+}
+function lukkAllePopups() {
+  document.querySelectorAll('.popup-backdrop').forEach(p => p.classList.remove('open'));
+}
+
+/* ---------- WORKSHOP STATE ---------- */
+let workshopState = null;
+let ws = null;
+
+function connectWS() {
+  const wsUrl = WORKSHOP_URL.replace(/^http/, 'ws') + '/ws';
+  try { ws = new WebSocket(wsUrl); }
+  catch (e) { setTimeout(connectWS, 3000); return; }
+
+  ws.onopen = () => {
+    document.getElementById('wsStatus').classList.add('live');
+    document.getElementById('wsLabel').textContent = 'Live';
+  };
+  ws.onmessage = (e) => {
+    try {
+      const msg = JSON.parse(e.data);
+      if (msg.state) { workshopState = msg.state; renderAll(); }
+      if (msg.type === 'ai_result' && msg.target) {
+        renderAIResult(msg.target, msg.result, msg.meta);
+      }
+    } catch (_) {}
+  };
+  ws.onclose = () => {
+    document.getElementById('wsStatus').classList.remove('live');
+    document.getElementById('wsLabel').textContent = 'Frakoblet';
+    setTimeout(connectWS, 3000);
+  };
+}
+
+async function fetchState() {
+  try {
+    const r = await fetch(WORKSHOP_URL + '/api/state');
+    workshopState = await r.json();
+    renderAll();
+  } catch (e) { console.warn('state fetch failed', e); }
+}
+
+function renderAll() {
+  if (!workshopState) return;
+  const rounds = workshopState.rounds || {};
+
+  renderFreetext('r1_bilde2035', rounds.r1_bilde2035);
+  renderFreetext('r2_prinsipper', rounds.r2_prinsipper);
+  renderCategorized('r3_hovedadresser', rounds.r3_hovedadresser, ['Ski', 'Kolbotn', 'Langhus']);
+  renderRating('r4', rounds.r4_langhus);
+  renderCategorized('r5_satellitter', rounds.r5_satellitter, ['Kan flyttes', 'Må vurderes', 'Urørlig']);
+  renderFreetext('r6_dilemma', rounds.r6_dilemma);
+  renderRating('r7', rounds.r7_konsensus);
+
+  // AI-state rehydration
+  if (rounds.r2_prinsipper?.destilled?.length) {
+    renderAIResult('r2', { type: 'prinsipper', items: rounds.r2_prinsipper.destilled }, workshopState.ai_meta?.r2);
+  }
+  if (workshopState.ai_cache?.dilemma_kobling) {
+    renderAIResult('r6', workshopState.ai_cache.dilemma_kobling, workshopState.ai_meta?.r6);
+  }
+  if (workshopState.ai_cache?.kd_utkast) {
+    renderAIResult('r21', workshopState.ai_cache.kd_utkast, workshopState.ai_meta?.r21);
+  }
+  if (workshopState.ai_cache?.sluttsyntese) {
+    renderAIResult('r22', workshopState.ai_cache.sluttsyntese, workshopState.ai_meta?.r22);
+  }
+}
+
+function renderFreetext(id, round) {
+  const container = document.getElementById('innspill-' + id);
+  if (!container || !round) return;
+  const items = round.items || [];
+  if (!items.length) {
+    container.innerHTML = '<div style="color: var(--text-faint); font-style: italic; font-size: var(--t-sm); padding: 20px;">Venter på svar fra bordene...</div>';
+    return;
+  }
+  container.innerHTML = items.map(it => `
+    <div class="innspill">
+      ${escapeHtml(it.value)}
+      <span class="bord">${escapeHtml(it.user_id || 'Anonym')}</span>
+    </div>
+  `).join('');
+}
+
+function renderCategorized(roundId, round, categories) {
+  if (!round) return;
+  const items = round.items || [];
+  categories.forEach(cat => {
+    const container = document.getElementById(
+      (roundId === 'r3_hovedadresser' ? 'r3-' : 'r5-') + cat
+    );
+    if (!container) return;
+    const inCat = items.filter(it => it.category === cat);
+    if (!inCat.length) {
+      container.innerHTML = '<div style="color: var(--text-faint); font-style: italic; font-size: 11px; padding: 8px;">Tom</div>';
+      return;
+    }
+    container.innerHTML = inCat.map(it => `<div class="item">${escapeHtml(it.value)}</div>`).join('');
+  });
+}
+
+function renderRating(prefix, round) {
+  if (!round) return;
+  const ratings = round.ratings || [];
+  const n = ratings.length;
+  const avgEl = document.getElementById(prefix + '-avg');
+  const cntEl = document.getElementById(prefix + '-count');
+  const spEl = document.getElementById(prefix + '-spread');
+  const tolkEl = document.getElementById(prefix + '-tolkning');
+  if (!avgEl) return;
+  if (n === 0) {
+    avgEl.textContent = '—';
+    cntEl.textContent = '0';
+    spEl.textContent = '—';
+    tolkEl.textContent = 'Venter på svar';
+    return;
+  }
+  const vals = ratings.map(r => r.value);
+  const avg = vals.reduce((a, b) => a + b, 0) / n;
+  const variance = vals.reduce((a, b) => a + (b - avg) ** 2, 0) / n;
+  const sd = Math.sqrt(variance);
+
+  avgEl.textContent = avg.toFixed(1);
+  cntEl.textContent = n;
+  spEl.textContent = sd.toFixed(2);
+
+  let tolk = '';
+  if (prefix === 'r4') {
+    if (avg >= 3.5) tolk = 'Mandat: Langhus fortsetter som primærkandidat med betingelser';
+    else if (avg >= 2.5) tolk = 'Utrederspor: Langhus vurderes videre mot neste milepæl';
+    else tolk = 'Ikke-mandat: hovedadresser forblir Ski og Kolbotn';
+  } else if (prefix === 'r7') {
+    if (avg >= 4 && sd < 0.8) tolk = 'Solid mandat — lav spredning';
+    else if (avg >= 3.5) tolk = 'Aksept med forbehold — notér spredningen';
+    else if (avg >= 2.5) tolk = 'Delvis aksept — diskuter betingelser';
+    else tolk = 'Ikke-mandat — må bearbeides videre';
+  }
+  tolkEl.textContent = tolk;
+}
+
+/* ---------- AI TRIGGERS ---------- */
+async function aiTrigger(target, endpoint) {
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Henter...';
+  try {
+    const r = await fetch(WORKSHOP_URL + endpoint, { method: 'POST' });
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    // Resultatet broadcastes via WS — men vis også direkte for sikkerhet
+    const outKey = targetFromEndpoint(target, endpoint);
+    renderAIResult(outKey, data, data.meta);
+  } catch (e) {
+    alert('AI-feil: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+}
+
+async function aiRegenerate(target, endpoint) {
+  return aiTrigger(target, endpoint + '?force=1');
+}
+
+function targetFromEndpoint(t, ep) {
+  if (ep.includes('destill-prinsipper')) return 'r2';
+  if (ep.includes('koble-dilemma')) return 'r6';
+  if (ep.includes('kd-utkast')) return 'r21';
+  if (ep.includes('sluttsyntese')) return 'r22';
+  return t;
+}
+
+function renderAIResult(target, data, meta) {
+  const outEl = document.getElementById('ai-out-' + target);
+  const metaEl = document.getElementById('ai-meta-' + target);
+  if (!outEl) return;
+
+  if (target === 'r2') {
+    const items = data.items || data.principles || [];
+    if (!items.length) { outEl.innerHTML = '<span class="placeholder">Ingen prinsipper enda.</span>'; return; }
+    outEl.innerHTML = '<ul>' + items.map(p => `<li>${escapeHtml(p)}</li>`).join('') + '</ul>';
+  } else if (target === 'r6') {
+    const koblinger = data.koblinger || data.items || [];
+    if (!koblinger.length) { outEl.innerHTML = '<span class="placeholder">Ingen kobling enda.</span>'; return; }
+    outEl.innerHTML = '<ul>' + koblinger.map(k => {
+      const d = typeof k === 'object' ? (k.dilemma || '') : '';
+      const p = typeof k === 'object' ? (k.prinsipp || k.kobling || '') : k;
+      return `<li><strong>${escapeHtml(d)}</strong><br><span style="color: var(--accent-soft); font-style: italic;">↳ ${escapeHtml(p)}</span></li>`;
+    }).join('') + '</ul>';
+  } else if (target === 'r21') {
+    const setning = data.setning || data.text || '';
+    if (setning) {
+      document.getElementById('kd-setning').textContent = setning;
+    }
+  } else if (target === 'r22') {
+    const setning = data.setning || data.text || '';
+    if (!setning) { outEl.innerHTML = '<span class="placeholder">Ingen sluttsyntese.</span>'; return; }
+    outEl.innerHTML = `<div class="serif-quote">"${escapeHtml(setning)}"</div>`;
+  }
+
+  if (metaEl && meta) {
+    const parts = [];
+    if (meta.model) parts.push(meta.model);
+    if (meta.ai_used === false) parts.push('fallback');
+    if (meta.ts) parts.push(new Date(meta.ts).toLocaleTimeString('nb-NO'));
+    metaEl.textContent = parts.join(' · ');
+  }
+}
+
+function escapeHtml(s) {
+  return (s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+/* ---------- BOOT ---------- */
+fetchState();
+connectWS();
+setInterval(fetchState, 10000); // fallback refresh
+</script>
+
+<!-- ================================================================
+     POPUPS — benchmark-kilder
+     ================================================================ -->
+<div class="popup-backdrop" id="popup-lillestrom" onclick="lukkPopup(event)">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div class="hero-mono">
+      <div class="mark-xl">L</div>
+      <div class="hero-label">Lillestrøm · åpnet 2022</div>
+      <button type="button" class="lukk" onclick="lukkAllePopups()" aria-label="Lukk">×</button>
+    </div>
+    <div class="body">
+      <h3>Lillestrøm bibliotek</h3>
+      <div class="underhead">Kirkegata 14 · Kulturkvartalene · ved togstasjonen</div>
+      <div class="faktaliste">
+        <div class="fakta-rad"><span class="l">Størrelse</span><span class="v">~3 000 kvm over 3 etasjer</span></div>
+        <div class="fakta-rad"><span class="l">Åpnet</span><span class="v">29. august 2022</span></div>
+        <div class="fakta-rad"><span class="l">Sambruk</span><span class="v">Kulturskolen m/ øvingsrom</span></div>
+        <div class="fakta-rad"><span class="l">Besøkende</span><span class="v">300 000+ per år</span></div>
+        <div class="fakta-rad"><span class="l">Arkitekt</span><span class="v">LPO Arkitekter (Jan Knoop)</span></div>
+      </div>
+      <p>Biblioteket åpnet sammen med Kulturkvartalene — et nytt kvartal i Lillestrøm sentrum — og ble samlokalisert med kulturskolen for å styrke begge tjenester.</p>
+      <div class="quote">"Samlokaliseringen mellom bibliotek og kulturskole er et vellykket grep på mange steder, og det ble antatt at det ville gi gjensidig nytte også i Lillestrøm."</div>
+      <p><strong>Relevant for oss:</strong> Viser at samlokalisering av bibliotek og kulturskole skaper mer liv enn summen av delene.</p>
+      <div class="kilde">Kilde: <a href="https://lillestrombibliotekene.no/bibliotekene/lillestrom-bibliotek/" target="_blank" rel="noopener">lillestrombibliotekene.no</a> · <a href="https://lokalhistoriewiki.no/wiki/Lillestr%C3%B8m_bibliotek" target="_blank" rel="noopener">lokalhistoriewiki.no</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-backdrop" id="popup-asker" onclick="lukkPopup(event)">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div class="hero-foto hero-foto-asker">
+      <div class="hero-label">Asker · Kulturhjørnet</div>
+      <button type="button" class="lukk" onclick="lukkAllePopups()" aria-label="Lukk">×</button>
+    </div>
+    <div class="body">
+      <h3>Asker kulturhus + Kulturhjørnet</h3>
+      <div class="underhead">Sentrum Asker · dør-i-dør med Trekanten kjøpesenter</div>
+      <div class="faktaliste">
+        <div class="fakta-rad"><span class="l">Innhold</span><span class="v">Bibliotek, teater, kino, scene</span></div>
+        <div class="fakta-rad"><span class="l">Senior-funksjon</span><span class="v">Kulturhjørnet 11–14 hverdager</span></div>
+        <div class="fakta-rad"><span class="l">Plassering</span><span class="v">Vegg-i-vegg m/ kjøpesenteret</span></div>
+        <div class="fakta-rad"><span class="l">Sambruk</span><span class="v">Ungdomsklubb, bandrom, galleri</span></div>
+      </div>
+      <p>Asker kulturhus samler en rekke tjenester under samme tak: teater- og kinosaler, bibliotek, galleri, kafé og Kulturhjørnet som åpen senior-møteplass.</p>
+      <div class="quote">"Kulturhjørnet er en åpen møteplass for alle, med senior-vennlige aktiviteter mandag til fredag fra 11–14."</div>
+      <p><strong>Relevant for oss:</strong> Senior-funksjonen er fysisk integrert i kulturhuset — ikke et eget bygg.</p>
+      <div class="kilde">Kilde: <a href="https://www.askerkulturhus.no/" target="_blank" rel="noopener">askerkulturhus.no</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-backdrop" id="popup-ks" onclick="lukkPopup(event)">
+  <div class="popup" onclick="event.stopPropagation()">
+    <div class="hero-foto hero-foto-ks">
+      <div class="hero-label">KS · 2022</div>
+      <button type="button" class="lukk" onclick="lukkAllePopups()" aria-label="Lukk">×</button>
+    </div>
+    <div class="body">
+      <h3>Veileder for sirkulærøkonomi</h3>
+      <div class="underhead">KS 2022 · utarbeidet av Deloitte</div>
+      <div class="faktaliste">
+        <div class="fakta-rad"><span class="l">Utgitt</span><span class="v">KS 2022</span></div>
+        <div class="fakta-rad"><span class="l">Kjernebudskap</span><span class="v">Sambruk som strategi</span></div>
+        <div class="fakta-rad"><span class="l">Område</span><span class="v">Bygg, areal, infrastruktur</span></div>
+      </div>
+      <p>KS-veilederen peker eksplisitt på sambruk og flerbruk som sentral strategi for arealeffektivisering i kommunesektoren.</p>
+      <div class="quote">"Sambruk og flerbruk av bygg er en av de mest effektive strategiene for å redusere kommunens arealbehov og samtidig styrke tilbudet til innbyggerne."</div>
+      <p><strong>Relevant for oss:</strong> Legitimering fra KS — vi gjør ikke noe unikt, vi følger en etablert anbefaling fra kommunesektoren.</p>
+      <div class="kilde">Kilde: <a href="https://www.ks.no/fagomrader/samfunnsutvikling/miljo/sirkular-okonomi/veileder-for-sirkular-okonomi/bygg-areal-og-infrastruktur/" target="_blank" rel="noopener">ks.no/veileder-for-sirkular-okonomi</a></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
