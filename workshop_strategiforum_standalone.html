@@ -1234,11 +1234,18 @@ html, body {
 body.manual-mode .manual-mode-banner { display: block; }
 body.manual-mode .deck { padding-top: 30px; }
 
-.manual-fab {
+.manual-controls {
   display: none;
   position: fixed;
   bottom: 24px;
   left: 24px;
+  gap: 10px;
+  z-index: 55;
+  align-items: center;
+}
+body.manual-mode .manual-controls { display: flex; }
+
+.manual-fab {
   background: var(--gold);
   color: var(--bg-primary);
   border: none;
@@ -1250,18 +1257,13 @@ body.manual-mode .deck { padding-top: 30px; }
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
-  z-index: 55;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(229, 188, 92, 0.3);
+  white-space: nowrap;
 }
-body.manual-mode .manual-fab { display: inline-block; }
 .manual-fab:hover { background: #F4CB6C; transform: translateY(-2px); }
-.manual-fab:disabled { background: var(--border); color: var(--text-faint); cursor: not-allowed; }
+.manual-fab:disabled { background: var(--border); color: var(--text-faint); cursor: not-allowed; box-shadow: none; }
 
 .manual-export {
-  display: none;
-  position: fixed;
-  bottom: 24px;
-  left: 230px;
   background: transparent;
   color: var(--gold);
   border: 1px solid var(--gold);
@@ -1273,9 +1275,9 @@ body.manual-mode .manual-fab { display: inline-block; }
   text-transform: uppercase;
   letter-spacing: 0.1em;
   cursor: pointer;
-  z-index: 55;
+  white-space: nowrap;
 }
-body.manual-mode .manual-export { display: inline-block; }
+.manual-export:hover { background: rgba(229, 188, 92, 0.12); }
 
 /* Manual modal */
 .m-modal-backdrop {
@@ -1445,8 +1447,10 @@ body.manual-mode .manual-export { display: inline-block; }
 
 <div class="manual-mode-banner">MANUELL FALLBACK · WS kan være nede · trykk + for å legge inn bordsvar · Ctrl+E for eksport</div>
 
-<button class="manual-fab" id="manualFab" onclick="openManualModal()">+ Legg til bordsvar</button>
-<button class="manual-export" onclick="exportManualData()">Eksport JSON</button>
+<div class="manual-controls">
+  <button class="manual-fab" id="manualFab" onclick="openManualModal()">+ Legg til bordsvar</button>
+  <button class="manual-export" onclick="exportManualData()">Eksport JSON</button>
+</div>
 
 <div class="nav-progress" id="progressBar" style="width: 0%"></div>
 <div class="ws-status" id="wsStatus"><span class="dot"></span><span id="wsLabel">Offline</span></div>
@@ -1928,7 +1932,13 @@ function next() { showSlide(current + 1); }
 function prev() { showSlide(current - 1); }
 
 document.addEventListener('keydown', (e) => {
-  if (e.target.isContentEditable) return;
+  // Ikke stjel taster fra input-felter
+  const tag = (e.target.tagName || '').toUpperCase();
+  if (e.target.isContentEditable || tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') {
+    // Tillat Esc for å lukke modal selv i input
+    if (e.key === 'Escape') closeManualModal();
+    return;
+  }
   if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
   else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
   else if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
