@@ -167,6 +167,13 @@ DEFAULT_ROUNDS: Dict[str, dict] = {
         "items": [],
         "active": False,
     },
+    "r6_tegn2035": {
+        "title": "Tegn møteplassen i 2035",
+        "question": "Velg den hovedadressen dere kjenner best (Ski, Kolbotn, Langhus). Beskriv den i 2035: Hvilke aktiviteter har dere samlet der? Hvem driver hva — kommunen, frivillige, næringsliv? Hva er magneten?",
+        "type": "freetext",
+        "items": [],
+        "active": False,
+    },
     "r6_dilemma": {
         "title": "Dilemma-eierskap",
         "question": "Hvilket dilemma tar din gruppe personlig eierskap til å følge opp etter forumet?",
@@ -533,6 +540,60 @@ FALLBACK_KD_SETNING = (
 
 
 # ====================================================================
+# AI: r6_tegn2035 — Syntetiser felles visjon
+# ====================================================================
+def build_visjon_prompt() -> str:
+    visjoner = collect_round_items_text("r6_tegn2035")
+    prinsipper = STATE["rounds"]["r2_prinsipper"].get("destilled", []) or []
+    satellitter = collect_categorized_items("r5_satellitter")
+
+    parts = [
+        "# ROLLE",
+        "Du syntetiserer gruppenes visjoner for fremtidens møteplass fra et strategiforum i Nordre Follo kommune.",
+        "Input er 8-10 gruppers beskrivelse av hvordan en hovedadresse ser ut i 2035.",
+        "",
+        format_context_block(),
+        "",
+        "# PRINSIPPER (r2)",
+    ]
+    if prinsipper:
+        parts += [f"  - {p}" for p in prinsipper]
+
+    parts += ["", "# SATELLITT-SORTERING (r5)"]
+    for cat, vals in satellitter.items():
+        if vals:
+            parts.append(f"  {cat}: " + "; ".join(vals[:6]))
+
+    parts += ["", "# GRUPPENES VISJONER (r6 — skal syntetiseres)"]
+    if visjoner:
+        for i, v in enumerate(visjoner, 1):
+            parts.append(f"  {i}. {v}")
+    else:
+        parts.append("  (ingen visjoner enda)")
+
+    parts += [
+        "",
+        "# OPPGAVE",
+        "Skriv ÉN sammenhengende visjon (maks 80 ord) som syntetiserer gruppenes beskrivelser.",
+        "Fokuser på: (1) hvilke aktiviteter som er samlet, (2) hvem som driver dem (kommune/næringsliv/frivillige),",
+        "(3) hva som gjør at folk kommer. Bruk deltakernes egne ord. Vær konkret, ikke generell.",
+        "Ikke: 'synergi', 'verdiskaping', 'co-creation'. Ja: 'kaféen drives av en lokal gründer', 'ungdommene har gaming-lab i 2. etasje'.",
+        "",
+        "# OUTPUT (JSON)",
+        '{"setning": "..."}',
+    ]
+    return "\n".join(parts)
+
+
+FALLBACK_VISJON = (
+    "Fremtidens møteplass i Nordre Follo samler bibliotek, senioraktiviteter, ungdomskafé "
+    "og kulturskole på én adresse. Kaféen drives av en lokal entreprenør, "
+    "frivilligsentralen organiserer quiz-kvelder, og kommunen sikrer kjernetjenestene. "
+    "Folk kommer fordi det alltid skjer noe — ikke fordi de må."
+)
+
+
+# ====================================================================
 # AI: slide 22 — Sluttsyntese
 # ====================================================================
 def build_sluttsyntese_prompt() -> str:
@@ -758,6 +819,28 @@ async def api_kd_utkast():
     return result
 
 
+@app.post("/api/syntetisere-visjon")
+async def api_syntetisere_visjon():
+    visjoner = collect_round_items_text("r6_tegn2035")
+    if not visjoner:
+        return JSONResponse({"error": "ingen visjoner enda", "setning": ""})
+    prompt = build_visjon_prompt()
+    parsed = call_gemini_json(prompt, temperature=0.55)
+    setning = ""
+    ai_used = False
+    if parsed and isinstance(parsed.get("setning"), str):
+        setning = parsed["setning"].strip()
+        ai_used = bool(setning)
+    if not setning:
+        setning = FALLBACK_VISJON
+    STATE.setdefault("ai_cache", {})["visjon"] = {"setning": setning}
+    STATE.setdefault("ai_meta", {})["r6t"] = {"ai_used": ai_used, "model": GEMINI_MODEL if ai_used else "fallback", "ts": _ts()}
+    save_state()
+    result = {"setning": setning, "meta": STATE["ai_meta"]["r6t"]}
+    await manager.broadcast({"type": "ai_result", "target": "r6t", "result": result, "meta": STATE["ai_meta"]["r6t"], "state": STATE})
+    return result
+
+
 @app.post("/api/sluttsyntese")
 async def api_sluttsyntese():
     prompt = build_sluttsyntese_prompt()
@@ -940,7 +1023,8 @@ ADMIN_HTML = """<!DOCTYPE html>
   <a class="btn" href="/api/export" download>Last ned eksport</a>
   <button class="btn" onclick="refresh()">Oppdater</button>
   <button class="btn primary" onclick="triggerAI('/api/destill-prinsipper', 'Destiller r2')">Destiller r2</button>
-  <button class="btn primary" onclick="triggerAI('/api/koble-dilemma', 'Koble r6')">Koble r6</button>
+  <button class="btn primary" onclick="triggerAI('/api/syntetisere-visjon', 'Visjon r6t')">Visjon r6t</button>
+  <button class="btn primary" onclick="triggerAI('/api/koble-dilemma', 'Koble r7')">Koble r7</button>
   <button class="btn primary" onclick="triggerAI('/api/kd-utkast', 'Utkast r21')">Utkast r21</button>
   <button class="btn primary" onclick="triggerAI('/api/sluttsyntese', 'Syntese r22')">Syntese r22</button>
 </div>
