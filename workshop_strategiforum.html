@@ -13,12 +13,12 @@
    Bygd fra bunnen for Strategiforum 30. april 2026.
    ===================================================================== */
 :root {
-  /* Bakgrunner — NFK primary #001B35 som grunnstrøm */
-  --bg-primary: #001B35;
-  --bg-deep: #000F1E;
-  --bg-container: #003057;
-  --bg-elevated: #002547;
-  --bg-chapter: #00142A;
+  /* Bakgrunner — NFK primary m/ varm undertone for bibliotekpreget stemning */
+  --bg-primary: #0D1B2A;
+  --bg-deep: #08111C;
+  --bg-container: #1B2838;
+  --bg-elevated: #142231;
+  --bg-chapter: #0A1520;
 
   /* Aksenter — NFK secondary (teal) lysnet for mørk flate */
   --accent: #4FB3B6;
@@ -29,9 +29,9 @@
   --tertiary: #4A7A96;
   --tertiary-soft: #6A98B5;
 
-  /* Warm editorial accent (NFK har ingen varm — denne er sand) */
-  --warm: #D4A574;
-  --warm-soft: #E5BC8C;
+  /* Warm bibliotek-accent — bokgull / gyllen sand */
+  --warm: #C9A96E;
+  --warm-soft: #DDBF8C;
 
   /* State-farger */
   --green: #5BB67E;
@@ -43,10 +43,10 @@
   --text-dim: #A8BECE;
   --text-faint: #7A96A8;
 
-  --surface: rgba(0, 48, 87, 0.55);
-  --surface-raised: rgba(10, 58, 97, 0.72);
-  --border: rgba(79, 179, 182, 0.22);
-  --border-soft: rgba(79, 179, 182, 0.10);
+  --surface: rgba(20, 34, 49, 0.65);
+  --surface-raised: rgba(27, 40, 56, 0.78);
+  --border: rgba(79, 179, 182, 0.18);
+  --border-soft: rgba(79, 179, 182, 0.08);
 
   /* Radius */
   --r-xs: 4px;
@@ -77,7 +77,7 @@ html, body {
   width: 100%;
   overflow: hidden;
   font-family: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(ellipse at top, var(--bg-elevated) 0%, var(--bg-deep) 100%);
+  background: linear-gradient(170deg, var(--bg-elevated) 0%, var(--bg-deep) 60%, #0A0E14 100%);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -168,7 +168,7 @@ html, body {
   background-color: var(--bg-primary);
   background-image:
     linear-gradient(135deg, rgba(0, 20, 42, 0.86) 0%, rgba(0, 15, 30, 0.94) 100%),
-    url('images/nfk/ski_1600.jpg');
+    url('images/gen/hero_moteplass.jpg');
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
@@ -232,7 +232,11 @@ html, body {
 .slide-chapter {
   justify-content: center;
   align-items: flex-start;
-  background: linear-gradient(135deg, var(--bg-chapter) 0%, var(--bg-deep) 100%);
+  background:
+    linear-gradient(135deg, rgba(10, 21, 32, 0.82) 0%, rgba(8, 17, 28, 0.92) 100%),
+    url('images/gen/chapter_bokhylle.jpg');
+  background-size: cover, cover;
+  background-position: center, center;
 }
 .slide-chapter .chap-num {
   font-family: "Fraunces", serif;
@@ -355,6 +359,8 @@ html, body {
 .bench-foto-asker { background-image: url('images/asker_kulturhus_1200.jpg'); }
 .bench-foto-ks { background-image: url('images/ks_sirkular.png'); background-size: contain; background-repeat: no-repeat; background-color: #003057; }
 .bench-foto-ks::after { background: linear-gradient(180deg, transparent 60%, rgba(0, 15, 30, 0.7) 100%); }
+.bench-foto-lillestrom { background-image: url('images/gen/lillestrom_ref.jpg'); }
+.hero-foto-lillestrom { background-image: url('images/gen/lillestrom_ref.jpg'); }
 .bench-foto .foto-year {
   position: absolute;
   bottom: 14px;
@@ -398,7 +404,7 @@ html, body {
 
 /* Split-foto slide 5 */
 .split-foto-kolben {
-  background-image: url('images/nfk/kolben_1600.jpg') !important;
+  background-image: url('images/gen/split_kulturhus.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
   padding: 0 !important;
@@ -1509,7 +1515,7 @@ body.manual-mode .manual-controls { display: flex; }
     <p class="intro">Andre kommuner og KS har gått veien før oss. Klikk et kort for fakta og kilder.</p>
     <div class="bench-grid">
       <div class="bench-kort" onclick="visPopup('lillestrom')">
-        <div class="bench-monogram"><div class="mark">L</div><div class="year">2022</div></div>
+        <div class="bench-foto bench-foto-lillestrom"><div class="foto-year">Lillestrøm · 2022</div></div>
         <div class="bench-innhold">
           <div class="sted">Lillestrøm · 2022</div>
           <h4>Lillestrøm bibliotek</h4>
@@ -1788,6 +1794,8 @@ body.manual-mode .manual-controls { display: flex; }
        ================================================================ -->
   <section class="slide">
     <div class="eyebrow warm">Arealkostnader · hva står på spill</div>
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(13,27,42,0.90) 0%, rgba(8,17,28,0.96) 100%), url('images/gen/areal_konsekvens.jpg');background-size:cover,cover;background-position:center,center;z-index:0;border-radius:inherit;"></div>
+    <style>.slide:has([class*="Arealkostnader"]) > * { position: relative; z-index: 2; }</style>
     <h1 class="h1">Planlagte innsparinger vi ikke har løst.</h1>
     <p class="intro">Disse tiltakene er vedtatt, men avhenger av beslutninger om møteplasser.</p>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 18px; max-width: 1400px;">
@@ -1824,7 +1832,8 @@ body.manual-mode .manual-controls { display: flex; }
        ================================================================ -->
   <section class="slide">
     <div class="eyebrow">Konsekvens · tjenestereise</div>
-    <h1 class="h1">Hva skjer med tjenestene<br>når møteplassene endres?</h1>
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(13,27,42,0.88) 0%, rgba(8,17,28,0.95) 100%), url('images/gen/tjenestereise.jpg');background-size:cover,cover;background-position:center,center 30%;z-index:0;"></div>
+    <h1 class="h1" style="position:relative;z-index:2;">Hva skjer med tjenestene<br>når møteplassene endres?</h1>
     <p class="intro">For hver endring må vi forstå konsekvensen — både for tjenestene og for innbyggerne.</p>
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; max-width: 1400px;">
       <div class="nasit-kort" style="border-left-color: var(--green);">
@@ -2442,8 +2451,7 @@ setInterval(fetchState, 10000); // fallback refresh
      ================================================================ -->
 <div class="popup-backdrop" id="popup-lillestrom" onclick="lukkPopup(event)">
   <div class="popup" onclick="event.stopPropagation()">
-    <div class="hero-mono">
-      <div class="mark-xl">L</div>
+    <div class="hero-foto hero-foto-lillestrom">
       <div class="hero-label">Lillestrøm · åpnet 2022</div>
       <button type="button" class="lukk" onclick="lukkAllePopups()" aria-label="Lukk">×</button>
     </div>
