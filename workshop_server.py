@@ -10,12 +10,12 @@ Runder:
   r3_hovedadresser   - categorized (Ski / Kolbotn / Langhus)
   r4_langhus         - rating 1-5
   r5_satellitter     - categorized (Kan flyttes / Må vurderes / Urørlig)
-  r6_dilemma         - freetext  → AI kobler dilemma til prinsipper
+  r6_dialog         - freetext  → AI kobler dialog til prinsipper
   r7_konsensus       - rating 1-5
 
 AI-ekstra:
   /api/destill-prinsipper  → r2-destillering, med r1+kartlegging som kontekst
-  /api/koble-dilemma       → r6-dilemma koblet til r2-prinsipper
+  /api/koble-dialog       → r6-dialog koblet til r2-prinsipper
   /api/kd-utkast           → utkast til kommunedirektørens slide-21-setning
   /api/sluttsyntese        → én setning som binder hele workshopen
 
@@ -174,9 +174,9 @@ DEFAULT_ROUNDS: Dict[str, dict] = {
         "items": [],
         "active": False,
     },
-    "r6_dilemma": {
-        "title": "Dilemma-eierskap",
-        "question": "Hvilket dilemma tar din gruppe personlig eierskap til å følge opp etter forumet?",
+    "r6_dialog": {
+        "title": "Dialog-eierskap",
+        "question": "Hvilken dialog tar din gruppe personlig eierskap til å føre — med innbyggere, ansatte eller samarbeidspartnere — etter forumet?",
         "type": "freetext",
         "items": [],
         "active": False,
@@ -198,7 +198,7 @@ def _default_state() -> dict:
         "participants": {},
         "rounds": json.loads(json.dumps(DEFAULT_ROUNDS)),
         "ai_cache": {
-            "dilemma_kobling": None,
+            "dialog_kobling": None,
             "kd_utkast": None,
             "sluttsyntese": None,
         },
@@ -232,7 +232,7 @@ def load_state() -> dict:
     saved.setdefault("session_started", datetime.now().isoformat())
     saved.setdefault("active_round", None)
     saved.setdefault("participants", {})
-    saved.setdefault("ai_cache", {"dilemma_kobling": None, "kd_utkast": None, "sluttsyntese": None})
+    saved.setdefault("ai_cache", {"dialog_kobling": None, "kd_utkast": None, "sluttsyntese": None})
     saved.setdefault("ai_meta", {})
     return saved
 
@@ -409,16 +409,16 @@ def fallback_destill_prinsipper(items: List[str]) -> List[str]:
 
 
 # ====================================================================
-# AI: r6_dilemma — kobling til prinsipper
+# AI: r6_dialog — kobling til prinsipper
 # ====================================================================
-def build_dilemma_kobling_prompt() -> str:
-    dilemmaer = collect_round_items_text("r6_dilemma")
+def build_dialog_kobling_prompt() -> str:
+    dialoger = collect_round_items_text("r6_dialog")
     prinsipper = STATE["rounds"]["r2_prinsipper"].get("destilled", []) or []
     satellitter = collect_categorized_items("r5_satellitter")
 
     parts = [
         "# ROLLE",
-        "Du kobler dilemmaene fra runde 6 til prinsippene fra runde 2 i samme strategiforum.",
+        "Du kobler dialogene fra runde 6 til prinsippene fra runde 2 i samme strategiforum.",
         "",
         "# PRINSIPPER (fra r2)",
     ]
@@ -434,34 +434,34 @@ def build_dilemma_kobling_prompt() -> str:
             parts.append(f"  {cat}: " + "; ".join(vals[:6]))
 
     parts += ["", "# DILEMMAER (fra r6 — skal kobles)"]
-    if dilemmaer:
-        for i, d in enumerate(dilemmaer, 1):
+    if dialoger:
+        for i, d in enumerate(dialoger, 1):
             parts.append(f"  {i}. {d}")
     else:
-        parts.append("  (ingen dilemmaer enda)")
+        parts.append("  (ingen dialoger enda)")
 
     parts += [
         "",
         "# OPPGAVE",
-        "For hvert dilemma: identifiser hvilket prinsipp fra r2 det er tettest koblet til, og skriv én setning som forklarer koblingen.",
-        "Bruk deltakernes egne ord. Vær presis, ikke generell. Hvis et dilemma ikke matcher noe prinsipp — vær ærlig og si det.",
+        "For hvert dialog: identifiser hvilket prinsipp fra r2 det er tettest koblet til, og skriv én setning som forklarer koblingen.",
+        "Bruk deltakernes egne ord. Vær presis, ikke generell. Hvis et dialog ikke matcher noe prinsipp — vær ærlig og si det.",
         "",
         "# OUTPUT (JSON)",
-        'Returner: {"koblinger": [{"dilemma": "...", "prinsipp": "...", "kobling": "forklaring i én setning"}]}',
+        'Returner: {"koblinger": [{"dialog": "...", "prinsipp": "...", "kobling": "forklaring i én setning"}]}',
     ]
     return "\n".join(parts)
 
 
-def fallback_dilemma_kobling() -> List[dict]:
-    dilemmaer = collect_round_items_text("r6_dilemma")
+def fallback_dialog_kobling() -> List[dict]:
+    dialoger = collect_round_items_text("r6_dialog")
     prinsipper = STATE["rounds"]["r2_prinsipper"].get("destilled", []) or []
     out = []
-    for i, d in enumerate(dilemmaer):
+    for i, d in enumerate(dialoger):
         p = prinsipper[i % len(prinsipper)] if prinsipper else "—"
         out.append({
-            "dilemma": d,
+            "dialog": d,
             "prinsipp": p,
-            "kobling": f"Dilemmaet berører prinsippet direkte — manuell kobling kreves.",
+            "kobling": f"Dialoget berører prinsippet direkte — manuell kobling kreves.",
         })
     return out
 
@@ -475,7 +475,7 @@ def build_kd_utkast_prompt() -> str:
     r7 = collect_ratings("r7_konsensus")
     satellitter = collect_categorized_items("r5_satellitter")
     hovedadresser = collect_categorized_items("r3_hovedadresser")
-    dilemmaer = collect_round_items_text("r6_dilemma")
+    dialoger = collect_round_items_text("r6_dialog")
 
     parts = [
         "# ROLLE",
@@ -509,8 +509,8 @@ def build_kd_utkast_prompt() -> str:
             parts.append(f"  {cat}: " + "; ".join(vals[:6]))
 
     parts += ["", "# DILEMMAER (r6)"]
-    if dilemmaer:
-        for d in dilemmaer[:8]:
+    if dialoger:
+        for d in dialoger[:8]:
             parts.append(f"  - {d}")
 
     parts += ["", f"# KONSENSUS (r7): snitt {r7.get('avg','—')}/5 fra {r7.get('count',0)} grupper"]
@@ -600,7 +600,7 @@ def build_sluttsyntese_prompt() -> str:
     prinsipper = STATE["rounds"]["r2_prinsipper"].get("destilled", []) or []
     r4 = collect_ratings("r4_langhus")
     r7 = collect_ratings("r7_konsensus")
-    dilemmaer = collect_round_items_text("r6_dilemma")
+    dialoger = collect_round_items_text("r6_dialog")
     satellitter = collect_categorized_items("r5_satellitter")
 
     parts = [
@@ -620,7 +620,7 @@ def build_sluttsyntese_prompt() -> str:
         f"# KONSENSUS (r7): snitt {r7.get('avg','—')}/5",
         "", "# DILEMMAER som tas videre",
     ]
-    for d in dilemmaer[:5]:
+    for d in dialoger[:5]:
         parts.append(f"  - {d}")
 
     parts += [
@@ -778,12 +778,12 @@ async def api_destill_prinsipper():
     return result
 
 
-@app.post("/api/koble-dilemma")
-async def api_koble_dilemma():
-    dilemmaer = collect_round_items_text("r6_dilemma")
-    if not dilemmaer:
-        return JSONResponse({"error": "ingen dilemmaer enda", "koblinger": []})
-    prompt = build_dilemma_kobling_prompt()
+@app.post("/api/koble-dialog")
+async def api_koble_dialog():
+    dialoger = collect_round_items_text("r6_dialog")
+    if not dialoger:
+        return JSONResponse({"error": "ingen dialoger enda", "koblinger": []})
+    prompt = build_dialog_kobling_prompt()
     parsed = call_gemini_json(prompt, temperature=0.45)
     koblinger: List[dict] = []
     ai_used = False
@@ -791,8 +791,8 @@ async def api_koble_dilemma():
         koblinger = parsed["koblinger"]
         ai_used = bool(koblinger)
     if not koblinger:
-        koblinger = fallback_dilemma_kobling()
-    STATE.setdefault("ai_cache", {})["dilemma_kobling"] = {"koblinger": koblinger}
+        koblinger = fallback_dialog_kobling()
+    STATE.setdefault("ai_cache", {})["dialog_kobling"] = {"koblinger": koblinger}
     STATE.setdefault("ai_meta", {})["r6"] = {"ai_used": ai_used, "model": GEMINI_MODEL if ai_used else "fallback", "ts": _ts()}
     save_state()
     result = {"koblinger": koblinger, "meta": STATE["ai_meta"]["r6"]}
@@ -1024,7 +1024,7 @@ ADMIN_HTML = """<!DOCTYPE html>
   <button class="btn" onclick="refresh()">Oppdater</button>
   <button class="btn primary" onclick="triggerAI('/api/destill-prinsipper', 'Destiller r2')">Destiller r2</button>
   <button class="btn primary" onclick="triggerAI('/api/syntetisere-visjon', 'Visjon r6t')">Visjon r6t</button>
-  <button class="btn primary" onclick="triggerAI('/api/koble-dilemma', 'Koble r7')">Koble r7</button>
+  <button class="btn primary" onclick="triggerAI('/api/koble-dialog', 'Koble r7')">Koble r7</button>
   <button class="btn primary" onclick="triggerAI('/api/kd-utkast', 'Utkast r21')">Utkast r21</button>
   <button class="btn primary" onclick="triggerAI('/api/sluttsyntese', 'Syntese r22')">Syntese r22</button>
 </div>
