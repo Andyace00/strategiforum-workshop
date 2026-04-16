@@ -159,7 +159,7 @@ DEFAULT_ROUNDS: Dict[str, dict] = {
             "Ski bibliotek (1 843 kvm, eid — biblioteksal/lesesal/ungdomsavd)",
             "Kolbotn bibliotek (1 426 kvm, eid — biblioteksal/galleri/lesesal)",
             "Hjørnet ungdomskafé (170 kvm — kafé/kjøkken/utstilling)",
-            "Blokk X (aktivitetstilbud ungdom)",
+            "Blokk X (344 kvm — aktivitetstilbud ungdom)",
             "Langhus ungdomskafé (138 kvm)",
             "Kontra kulturskole (1 580 kvm, leid til 2031 — musikk/dans/kunst/teater)",
             "Kulturskole i Kolben (842 kvm, eid — øvingsrom/sal/dansesal)",
