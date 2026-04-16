@@ -161,7 +161,7 @@ DEFAULT_ROUNDS: Dict[str, dict] = {
             "Hjørnet ungdomskafé (170 kvm — kafé/kjøkken/utstilling)",
             "Blokk X (344 kvm — aktivitetstilbud ungdom)",
             "Langhus ungdomskafé (138 kvm)",
-            "Kontra kulturskole (1 580 kvm, leid til 2031 — musikk/dans/kunst/teater)",
+            "Kontra kulturskole (1 580 kvm, eid — kulturskolen 5 år til — musikk/dans/kunst/teater)",
             "Kulturskole i Kolben (842 kvm, eid — øvingsrom/sal/dansesal)",
         ],
         "items": [],
