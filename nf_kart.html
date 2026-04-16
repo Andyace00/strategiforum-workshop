@@ -149,7 +149,7 @@
 <body>
   <header>
     <h1>Møteplasser i Nordre Follo — arealkart</h1>
-    <div class="subtitle">Leaflet + OpenStreetMap · ca. 20 lokasjoner · 3250 kvm leid + 5062 kvm eid (inkl. K26)</div>
+    <div class="subtitle">Leaflet + OpenStreetMap · ca. 20 lokasjoner · Alle lokasjoner for bibliotek, kulturskole, seniorsentre og ungdomskafeer</div>
   </header>
   <div class="main">
     <div id="map"></div>
@@ -167,7 +167,7 @@
 
       <h3>Areal totalt</h3>
       <div class="sum-row"><span class="label">Leid</span><span class="val">ca. 3250 kvm</span></div>
-      <div class="sum-row"><span class="label">Eid (inkl. K26)</span><span class="val">ca. 5062 kvm</span></div>
+      <div class="sum-row"><span class="label">Eid areal</span><span class="val">ca. 5 062 kvm</span></div>
       <div class="sum-row total"><span class="label">Sum</span><span class="val">ca. 8312 kvm</span></div>
 
       <h3>Innbyggere</h3>
@@ -192,34 +192,42 @@
 // Kildekommentar: koordinater hentet fra Google Maps / Kartverket søk på offentlige adresser,
 // og avrundet til 5 desimaler. Må valideres av Eiendom før produksjon.
 const bygg = [
-  // HOVEDADRESSER
-  { navn: "Ski bibliotek (Storsenteret)", type: "hoved", lat: 59.71979, lon: 10.83752,
-    kvm: "ca. 2000 kvm (leid)", note: "Gitt som hovedadresse, ikke til diskusjon", ankere: "📚 bibliotek · historisk arkiv", satellitt: false },
+  // HOVEDADRESSER (områder, ikke enkeltbygg)
+  { navn: "Ski bibliotek", type: "hoved", lat: 59.71979, lon: 10.83752,
+    kvm: "1 843 kvm (leid)", note: "Leieavtale — del av tiltaket «areal med netto innsparing»", ankere: "Biblioteksal, lesesal, ungdomsavdeling, historisk arkiv", satellitt: true },
   { navn: "Kolben kulturhus (Kolbotn)", type: "hoved", lat: 59.81159, lon: 10.79766,
-    kvm: "ca. 1400 kvm (eid)", note: "Gitt som hovedadresse, ikke til diskusjon. Bibliotek + kultur + kino", ankere: "📚 bibliotek · 🎭 kulturhus · 🎹 flygel · 🥁 slagverk", satellitt: false },
+    kvm: "842 kvm (eid)", note: "Bibliotek + kulturhus + kino. Kulturskolen bruker øvingsrom/sal/dansesal/galleri", ankere: "Bibliotek, kulturhus, kulturskole-rom", satellitt: true },
+  { navn: "Kolbotn bibliotek", type: "hoved", lat: 59.81180, lon: 10.79680,
+    kvm: "1 426 kvm (eid)", note: "Biblioteksal 997 kvm, galleri 82 kvm, lesesal 44 kvm", ankere: "Biblioteksal, galleri, lesesal", satellitt: true },
   { navn: "Langhus (potensiell)", type: "hoved-kandidat", lat: 59.75320, lon: 10.84090,
-    kvm: "til diskusjon", note: "Forumets åpne spørsmål: skal dette være nr 3?", ankere: "—", satellitt: false },
+    kvm: "138 kvm ungdomskafé", note: "I dag kun ungdomskafé. Potensiell større møteplass?", ankere: "Ungdomskafé", satellitt: true },
 
-  // SENIORSENTRE (diskuteres i r5)
+  // SENIORSENTRE
   { navn: "Toppenhaug seniorsenter", type: "senior", lat: 59.80100, lon: 10.78500,
-    kvm: "ca. 500 kvm", note: "Forebyggende senior-tilbud. Kan potensielt absorberes av Kolben", satellitt: true },
+    kvm: "480 kvm (eid)", note: "Kafé/quiz/bingo man–fre, snekkerverksted, fotpleie. FDV 467k/år", ankere: "Kafé, quiz, bingo, snekker, fotpleie", satellitt: true },
   { navn: "Svingen seniorsenter", type: "senior", lat: 59.71300, lon: 10.84500,
-    kvm: "ca. 630 kvm", note: "Forebyggende senior-tilbud. Nær Ski. Snekker- og steinslipingsverksted", satellitt: true },
-  { navn: "Kolben senior (leid del)", type: "senior", lat: 59.81100, lon: 10.79900,
-    kvm: "ca. 400 kvm (leid)", note: "Leid del inne i Kolben-komplekset", satellitt: true },
+    kvm: "655 kvm (eid)", note: "Kafé, sløyd, håndarbeid, trening, språkkurs, kjøkken til hjemmeboende", ankere: "Kafé, sløyd, håndarbeid, språkkurs", satellitt: true },
+  { navn: "Kolben seniorsenter", type: "senior", lat: 59.81100, lon: 10.79900,
+    kvm: "520 kvm (leid)", note: "Leid av Samfunnshuset. Leiekost 1,1M/år. Kafé/trening/quiz/festsal", ankere: "Kafé, trening, quiz, festsal", satellitt: true },
 
   // KULTURSKOLE
   { navn: "Kontra kulturskole", type: "kultur", lat: 59.72050, lon: 10.83500,
-    kvm: "ca. 500 kvm", note: "Leiekontrakt løper ut 2031. Ankere: visuell kunst, studio", satellitt: true },
+    kvm: "1 580 kvm (eid)", note: "Kulturskolen blir i 5 år. Musikk, dans, kunst, teater, band. FDV 300k/år", ankere: "Musikk, dans, visuell kunst, teater, band, slagverk", satellitt: true },
   { navn: "Idrettsveien 14 (dansesal)", type: "kultur", lat: 59.72500, lon: 10.83200,
-    kvm: "ca. 850 kvm", note: "Eid. Dansesal — låst av spesialrom", satellitt: false },
+    kvm: "850 kvm (eid)", note: "Besluttet: dans blir i leide areal inntil videre", ankere: "Dansesal (spesialrom)", satellitt: false },
 
-  // K26 (egen skisse)
-  { navn: "K26 (kafé + utstilling)", type: "senior", lat: 59.72100, lon: 10.83620,
-    kvm: "ca. 170 kvm", note: "Egen skisse. Liten bygning med kafé (44 m²), kjøkken, utstillingsrom", satellitt: true },
+  // UNGDOM
+  { navn: "Hjørnet ungdomskafé", type: "ungdom", lat: 59.72100, lon: 10.83620,
+    kvm: "170 kvm", note: "Kafé, kjøkken, utstilling", ankere: "Ungdomskafé", satellitt: true },
+  { navn: "Blokk X", type: "ungdom", lat: 59.81050, lon: 10.80100,
+    kvm: "344 kvm", note: "Aktivitetstilbud ungdom", ankere: "Ungdomsaktiviteter", satellitt: true },
+  { navn: "Langhus ungdomskafé", type: "ungdom", lat: 59.75280, lon: 10.84150,
+    kvm: "138 kvm", note: "Ungdomskafé på Langhus", ankere: "Ungdomskafé", satellitt: true },
+
+  // KULTURSKOLE I KOLBEN (eget punkt for synlighet)
+  { navn: "Kulturskole i Kolben", type: "kultur", lat: 59.81200, lon: 10.79850,
+    kvm: "842 kvm (eid)", note: "Øvingsrom, sal, dansesal, galleri — del av Kolben-bygget", ankere: "Øvingsrom, sal, dansesal", satellitt: true },
 ];
-// MERK: Ung fritid (fritidssentre og ungdomskafeer) er bevisst utelatt fra denne workshopen —
-// forvaltes av Ung fritid separat og er ikke med i sambruksdiskusjonen.
 
 // ============ KART-OPPSETT ============
 // Sentrum mellom Ski og Kolbotn
