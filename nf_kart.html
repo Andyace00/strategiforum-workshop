@@ -193,39 +193,39 @@
 // og avrundet til 5 desimaler. Må valideres av Eiendom før produksjon.
 const bygg = [
   // HOVEDADRESSER (områder, ikke enkeltbygg)
-  { navn: "Ski bibliotek", type: "hoved", lat: 59.71979, lon: 10.83752,
+  { navn: "Ski bibliotek", type: "hoved", lat: 59.71958, lon: 10.83789,
     kvm: "1 843 kvm (leid)", note: "Leieavtale — del av tiltaket «areal med netto innsparing»", ankere: "Biblioteksal, lesesal, ungdomsavdeling, historisk arkiv", satellitt: true },
-  { navn: "Kolben kulturhus (Kolbotn)", type: "hoved", lat: 59.81159, lon: 10.79766,
+  { navn: "Kolben kulturhus (Kolbotn)", type: "hoved", lat: 59.81067, lon: 10.79622,
     kvm: "842 kvm (eid)", note: "Bibliotek + kulturhus + kino. Kulturskolen bruker øvingsrom/sal/dansesal/galleri", ankere: "Bibliotek, kulturhus, kulturskole-rom", satellitt: true },
-  { navn: "Kolbotn bibliotek", type: "hoved", lat: 59.81180, lon: 10.79680,
+  { navn: "Kolbotn bibliotek", type: "hoved", lat: 59.81067, lon: 10.79622,
     kvm: "1 426 kvm (eid)", note: "Biblioteksal 997 kvm, galleri 82 kvm, lesesal 44 kvm", ankere: "Biblioteksal, galleri, lesesal", satellitt: true },
-  { navn: "Langhus (potensiell)", type: "hoved-kandidat", lat: 59.75320, lon: 10.84090,
+  { navn: "Langhus (potensiell)", type: "hoved-kandidat", lat: 59.75120, lon: 10.83990,
     kvm: "138 kvm ungdomskafé", note: "I dag kun ungdomskafé. Potensiell større møteplass?", ankere: "Ungdomskafé", satellitt: true },
 
   // SENIORSENTRE
-  { navn: "Toppenhaug seniorsenter", type: "senior", lat: 59.80100, lon: 10.78500,
+  { navn: "Toppenhaug seniorsenter", type: "senior", lat: 59.80442, lon: 10.79142,
     kvm: "480 kvm (eid)", note: "Kafé/quiz/bingo man–fre, snekkerverksted, fotpleie. FDV 467k/år", ankere: "Kafé, quiz, bingo, snekker, fotpleie", satellitt: true },
-  { navn: "Svingen seniorsenter", type: "senior", lat: 59.71300, lon: 10.84500,
+  { navn: "Svingen seniorsenter", type: "senior", lat: 59.71628, lon: 10.83931,
     kvm: "655 kvm (eid)", note: "Kafé, sløyd, håndarbeid, trening, språkkurs, kjøkken til hjemmeboende", ankere: "Kafé, sløyd, håndarbeid, språkkurs", satellitt: true },
-  { navn: "Kolben seniorsenter", type: "senior", lat: 59.81100, lon: 10.79900,
+  { navn: "Kolben seniorsenter", type: "senior", lat: 59.81067, lon: 10.79622,
     kvm: "520 kvm (leid)", note: "Leid av Samfunnshuset. Leiekost 1,1M/år. Kafé/trening/quiz/festsal", ankere: "Kafé, trening, quiz, festsal", satellitt: true },
 
   // KULTURSKOLE
-  { navn: "Kontra kulturskole", type: "kultur", lat: 59.72050, lon: 10.83500,
+  { navn: "Kontra kulturskole", type: "kultur", lat: 59.71747, lon: 10.83283,
     kvm: "1 580 kvm (eid)", note: "Kulturskolen blir i 5 år. Musikk, dans, kunst, teater, band. FDV 300k/år", ankere: "Musikk, dans, visuell kunst, teater, band, slagverk", satellitt: true },
-  { navn: "Idrettsveien 14 (dansesal)", type: "kultur", lat: 59.72500, lon: 10.83200,
+  { navn: "Idrettsveien 14 (dansesal)", type: "kultur", lat: 59.72333, lon: 10.83422,
     kvm: "850 kvm (eid)", note: "Besluttet: dans blir i leide areal inntil videre", ankere: "Dansesal (spesialrom)", satellitt: false },
 
   // UNGDOM
-  { navn: "Hjørnet ungdomskafé", type: "ungdom", lat: 59.72100, lon: 10.83620,
+  { navn: "Hjørnet ungdomskafé", type: "ungdom", lat: 59.71886, lon: 10.83550,
     kvm: "170 kvm", note: "Kafé, kjøkken, utstilling", ankere: "Ungdomskafé", satellitt: true },
-  { navn: "Blokk X", type: "ungdom", lat: 59.81050, lon: 10.80100,
+  { navn: "Blokk X", type: "ungdom", lat: 59.81233, lon: 10.79842,
     kvm: "344 kvm", note: "Aktivitetstilbud ungdom", ankere: "Ungdomsaktiviteter", satellitt: true },
-  { navn: "Langhus ungdomskafé", type: "ungdom", lat: 59.75280, lon: 10.84150,
+  { navn: "Langhus ungdomskafé", type: "ungdom", lat: 59.75186, lon: 10.83856,
     kvm: "138 kvm", note: "Ungdomskafé på Langhus", ankere: "Ungdomskafé", satellitt: true },
 
   // KULTURSKOLE I KOLBEN (eget punkt for synlighet)
-  { navn: "Kulturskole i Kolben", type: "kultur", lat: 59.81200, lon: 10.79850,
+  { navn: "Kulturskole i Kolben", type: "kultur", lat: 59.81067, lon: 10.79622,
     kvm: "842 kvm (eid)", note: "Øvingsrom, sal, dansesal, galleri — del av Kolben-bygget", ankere: "Øvingsrom, sal, dansesal", satellitt: true },
 ];
 
@@ -268,7 +268,7 @@ bygg.forEach(b => {
     fillOpacity: isHoved ? 0.92 : 0.78,
     className: `marker marker-${b.type} ${b.satellitt ? "satellitt" : ""}`,
   });
-  marker.bindPopup(
+  marker.bindTooltip(b.navn, { permanent: false, direction: 'top', offset: [0, -8] }); marker.bindPopup(
     `<div class="bygg-popup">
       <div class="navn">${b.navn}</div>
       <div class="info">${b.note || ""}</div>
